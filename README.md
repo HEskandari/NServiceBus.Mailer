@@ -3,7 +3,9 @@ NServiceBusMailer
 
 ## Nuget
 
-
+https://nuget.org/packages/NServiceBusMailer/
+    
+    PM> Install-Package NServiceBusMailer -Pre
 
 ## Usage 
      
@@ -49,9 +51,9 @@ To have your own custom `SmtpClient` simply inherit from `ISmtpBuilder`.
         }
     }
     
-### Inject ISmtpBuilder into IOC
+### Inject ISmtpBuilder into Container
 
-Then configure the instance to be injected into the NSerivceBus IOC.
+Then configure the instance to be injected into the NSerivceBus Container.
 
         configure
             .Configurer
@@ -81,13 +83,17 @@ Since it is not practical to send binary data as part of messages there is an al
         }
     }
 
-### Inject IAttachmentFinder into IOC
+### Inject IAttachmentFinder into Container
+
+Then configure the instance to be injected into the NSerivceBus Container.
 
         configure
             .Configurer
             .ConfigureComponent<IAttachmentFinder>(_ => new AttachmentFinder(), DependencyLifecycle.SingleInstance);
 
 ### Pass an `AttachmentContext` when sending the email
+
+Pass an `AttachmentContext` when calling `SendMail`
 
         var mail = new Mail
             {
