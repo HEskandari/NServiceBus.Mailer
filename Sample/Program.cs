@@ -30,8 +30,10 @@ class Program
             .Start(() => Configure.Instance.ForInstallationOn<Windows>().Install());
         var mail = new Mail
             {
-                To = "to@fake.com",
-                From = "from@fake.com",
+                To = "to@fake.email",
+                From = "from@fake.email",
+                Body = "This is the body",
+                Subject = "Hello",
                 AttachmentContext = new Dictionary<string, string>{{"Id","fakeEmail"}}
             };
         bus.SendMail(mail);
