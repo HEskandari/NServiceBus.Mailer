@@ -20,7 +20,7 @@ https://nuget.org/packages/NServiceBusMailer/
 
 ## SmtpClient construction 
 
-The interface `ISmtpBuilder` can be used to control how an `SmtpClient` is constructed.
+The interface `ISmtpBuilder` can be used to control how an [`SmtpClient`](http://msdn.microsoft.com/en-us/library/system.net.mail.smtpclient.aspx) is constructed.
 
 By default the  `DefaultSmtpBuilder` will be used. This effectively uses the code
 
@@ -51,13 +51,13 @@ To have your own custom `SmtpClient` simply inherit from `ISmtpBuilder`.
         }
     }
     
-### Inject ISmtpBuilder into Container
+### Inject `ISmtpBuilder` into the Container
 
 Then configure the instance to be injected into the NSerivceBus Container.
 
-        configure
-            .Configurer
-            .ConfigureComponent<ISmtpBuilder>(_ => new ToDirectorySmtpBuilder(), DependencyLifecycle.SingleInstance);
+    configure
+        .Configurer
+        .ConfigureComponent<ISmtpBuilder>(_ => new ToDirectorySmtpBuilder(), DependencyLifecycle.SingleInstance);
             
 ## Attachments
 
@@ -82,30 +82,31 @@ Since it is not practical to send binary data as part of messages there is an al
         }
     }
 
-### Inject IAttachmentFinder into Container
+### Inject `IAttachmentFinder` into the Container
 
 Then configure the instance to be injected into the NSerivceBus Container.
 
-        configure
-            .Configurer
-            .ConfigureComponent<IAttachmentFinder>(_ => new AttachmentFinder(), DependencyLifecycle.SingleInstance);
+    configure
+        .Configurer
+        .ConfigureComponent<IAttachmentFinder>(_ => new AttachmentFinder(), DependencyLifecycle.SingleInstance);
 
 ### Pass an `AttachmentContext` when sending the email
 
 Pass an `AttachmentContext` when calling `SendMail`. The `AttachmentContext` should contain enough information for you to derive how to find and return the attachments for the email. 
 
-        var mail = new Mail
-            {
-                To = "to@fake.email",
-                From = "from@fake.email",
-                Body = "This is the body",
-                Subject = "Hello",
-                AttachmentContext = new Dictionary<string, string>{{"Id","fakeEmail"}}
-            };
-        bus.SendMail(mail);
+    var mail = new Mail
+        {
+            To = "to@fake.email",
+            From = "from@fake.email",
+            Body = "This is the body",
+            Subject = "Hello",
+            AttachmentContext = new Dictionary<string, string>{{"Id","fakeEmail"}}
+        };
+    bus.SendMail(mail);
 
 ## Error handling
 
+TODO
 
 ## Icon
 
