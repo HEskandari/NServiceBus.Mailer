@@ -15,7 +15,7 @@
     <tags>NSericeBus, EMail, NServiceBusMailer</tags>
 	  <dependencies>
 		  <group targetFramework=".NETFramework4.0">
-			  <dependency id="NServiceBus" version="4.0.0" />
+			  <dependency id="NServiceBus" version="4.0.0-beta0001" />
 		  </group>
 	  </dependencies>
   </metadata>
