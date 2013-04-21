@@ -1,6 +1,6 @@
 ﻿using System.Net.Mail;
 
-namespace NServiceBusMail
+namespace NServiceBusMailer
 {
     /// <summary>
     /// Factory for constructing a <see cref="SmtpClient"/>/

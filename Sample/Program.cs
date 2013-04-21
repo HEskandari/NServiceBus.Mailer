@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using NLog.Targets;
 using NServiceBus;
 using NServiceBus.Installation.Environments;
-using NServiceBusMail;
+using NServiceBusMailer;
 
 class Program
 {

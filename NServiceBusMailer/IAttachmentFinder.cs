@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Net.Mail;
 
-namespace NServiceBusMail
+namespace NServiceBusMailer
 {
     /// <summary>
     /// Find attachemnts for an email.

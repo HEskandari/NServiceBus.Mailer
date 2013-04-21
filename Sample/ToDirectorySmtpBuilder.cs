@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Net.Mail;
-using NServiceBusMail;
+using NServiceBusMailer;
 
 public class ToDirectorySmtpBuilder : ISmtpBuilder
 {

@@ -1,6 +1,6 @@
 ﻿using System.Net.Mail;
 
-namespace NServiceBusMail
+namespace NServiceBusMailer
 {
     static class MessageConverter
     {

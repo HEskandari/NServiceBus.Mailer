@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using NServiceBus;
 
-namespace NServiceBusMail
+namespace NServiceBusMailer
 {
     class MessageForwarder
     {

@@ -2,7 +2,7 @@
 using System.IO;
 using System.Net.Mail;
 using System.Text;
-using NServiceBusMail;
+using NServiceBusMailer;
 
 public class AttachmentFinder : IAttachmentFinder
 {

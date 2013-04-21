@@ -1,7 +1,7 @@
 ﻿using System;
 using NServiceBus;
 
-namespace NServiceBusMail
+namespace NServiceBusMailer
 {
     public static class BusExtensions
     {

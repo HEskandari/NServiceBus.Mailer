@@ -3,7 +3,7 @@ using System.Net.Mail;
 using System.Text;
 using NServiceBus;
 
-namespace NServiceBusMail
+namespace NServiceBusMailer
 {
     class MailMessage:IMessage
     {

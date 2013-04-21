@@ -2,7 +2,7 @@
 using System.Net.Mail;
 using System.Text;
 
-namespace NServiceBusMail
+namespace NServiceBusMailer
 {
     /// <summary>
     /// Represents an e-mail message that can be sent using the <see cref="BusExtensions.SendMail"/>.

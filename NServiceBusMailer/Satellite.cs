@@ -5,7 +5,7 @@ using NServiceBus;
 using NServiceBus.Satellites;
 using NServiceBus.Serialization;
 
-namespace NServiceBusMail
+namespace NServiceBusMailer
 {
 
     class Satellite : ISatellite

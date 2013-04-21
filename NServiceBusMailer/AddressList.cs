@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 
-namespace NServiceBusMail
+namespace NServiceBusMailer
 {
     public class AddressList: IList<string>
     {
