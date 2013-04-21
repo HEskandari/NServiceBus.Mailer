@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Text;
 using NLog.Targets;
 using NServiceBus;
 using NServiceBus.Installation.Environments;
@@ -10,8 +9,6 @@ class Program
     static void Main()
     {
         Configure.GetEndpointNameAction = () => "NServiceBusMailSample";
-
-        Encoding bodyEncoding = new System.Net.Mail.MailMessage().BodyEncoding;
 
         var consoleTarget = new ConsoleTarget();
         var configure = Configure
