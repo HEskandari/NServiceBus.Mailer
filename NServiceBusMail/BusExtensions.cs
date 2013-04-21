@@ -1,4 +1,5 @@
-﻿using NServiceBus;
+﻿using System;
+using NServiceBus;
 
 namespace NServiceBusMail
 {
@@ -31,6 +32,11 @@ namespace NServiceBusMail
                 };
             var scope = Configure.Instance.GetMasterNodeAddress().SubScope("Mail");
             bus.Send(scope, message);
+        }
+
+        internal static DateTime TimeSent(this IBus bus)
+        {
+            return DateTimeExtensions.ToUtcDateTime(bus.CurrentMessageContext.Headers[Headers.TimeSent]);
         }
     }
 }
