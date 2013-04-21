@@ -19,14 +19,19 @@ namespace NServiceBusMail
                 };
 
             if (mail.From != null)
+            {
                 message.From = new MailAddress(mail.From);
+            }
+            
+            if (mail.Sender != null)
+            {
+                message.Sender = new MailAddress(mail.Sender);
+            }
 
             mail.To.ForEach(a => message.To.Add(new MailAddress(a)));
-            mail.ReplyToList.ForEach(a => message.ReplyToList.Add(new MailAddress(a)));
+            mail.ReplyTo.ForEach(a => message.ReplyToList.Add(new MailAddress(a)));
             mail.Bcc.ForEach(a => message.Bcc.Add(new MailAddress(a)));
             mail.Cc.ForEach(a => message.CC.Add(new MailAddress(a)));
-            if (mail.Sender != null)
-                message.Sender = new MailAddress(mail.Sender);
 
             foreach (var header in mail.Headers)
             {

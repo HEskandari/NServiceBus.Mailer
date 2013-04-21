@@ -51,6 +51,11 @@ namespace NServiceBusMail
         public Dictionary<string, string> Headers = new Dictionary<string, string>();
 
         /// <summary>
+        /// The (optional) context of the message that can be used by <see cref="IAttachmentFinder"/> to retrieve attachments.
+        /// </summary> 
+        public Dictionary<string, string> AttachmentContext = new Dictionary<string, string>();
+
+        /// <summary>
         /// The encoding used for the user-defined custom headers for this e-mail message.
         /// </summary> 
         public Encoding HeadersEncoding;

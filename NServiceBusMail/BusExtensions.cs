@@ -33,11 +33,12 @@ namespace NServiceBusMail
                     HeadersEncoding = mail.HeadersEncoding,
                     IsBodyHtml = mail.IsBodyHtml,
                     Priority = mail.Priority,
-                    ReplyToList = mail.ReplyTo,
+                    ReplyTo = mail.ReplyTo,
                     Sender = mail.Sender,
                     Subject = mail.Subject,
                     SubjectEncoding = mail.SubjectEncoding,
                     To = mail.To,
+                    AttachmentContext = mail.AttachmentContext,
                 };
             var scope = Configure.Instance.GetMasterNodeAddress().SubScope("Mail");
             bus.Send(scope, message);

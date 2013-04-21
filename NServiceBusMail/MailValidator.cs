@@ -23,10 +23,6 @@ namespace NServiceBusMail
             {
                 throw new ArgumentException("ReplyTo cannot be null");
             }
-            if (mail.From == null)
-            {
-                throw new ArgumentException("From cannot be null");
-            }
             if (mail.Body == null)
             {
                 throw new ArgumentException("Body cannot be null");

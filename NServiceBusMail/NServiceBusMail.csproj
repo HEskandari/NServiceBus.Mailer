@@ -71,6 +71,7 @@
     <Compile Include="AddressList.cs" />
     <Compile Include="BusExtensions.cs" />
     <Compile Include="DefaultSmtpBuilder.cs" />
+    <Compile Include="IAttachmentFinder.cs" />
     <Compile Include="ISmtpBuilder.cs" />
     <Compile Include="MailValidator.cs" />
     <Compile Include="MessageConverter.cs" />

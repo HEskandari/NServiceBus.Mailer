@@ -12,6 +12,7 @@ namespace NServiceBusMail
     {
         public ISmtpBuilder SmtpBuilder;
         public IMessageSerializer MessageSerializer;
+        public IAttachmentFinder AttachmentFinder;
         public IBus Bus;
 
         public Satellite()
@@ -25,9 +26,11 @@ namespace NServiceBusMail
             using (var smtpClient = SmtpBuilder.BuildClient())
             using (var mailMessage = sendEmail.ToMailMessage())
             {
+                AddAttachments(sendEmail, mailMessage);
                 try
                 {
                     smtpClient.Send(mailMessage);
+                    CleanAttachments(sendEmail);
                 }
                 catch (SmtpFailedRecipientsException ex)
                 {
@@ -48,6 +51,31 @@ namespace NServiceBusMail
                 }
             }
             return true;
+        }
+
+        void CleanAttachments(MailMessage sendEmail)
+        {
+            if (AttachmentFinder != null)
+            {
+                if (sendEmail.AttachmentContext != null)
+                {
+                    AttachmentFinder.CleanAttachments(sendEmail.AttachmentContext);
+                }
+            }
+        }
+
+        void AddAttachments(MailMessage sendEmail, System.Net.Mail.MailMessage mailMessage)
+        {
+            if (AttachmentFinder != null)
+            {
+                if (sendEmail.AttachmentContext != null)
+                {
+                    foreach (var attachment in AttachmentFinder.FindAttachments(sendEmail.AttachmentContext))
+                    {
+                        mailMessage.Attachments.Add(attachment);
+                    }
+                }
+            }
         }
 
         MailMessage DeserializeMessage(TransportMessage message)
