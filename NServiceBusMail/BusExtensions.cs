@@ -12,6 +12,15 @@ namespace NServiceBusMail
         /// <param name="mail">The <see cref="NServiceBusMail.Mail"/> to send.</param>
         public static void SendMail(this IBus bus, Mail mail)
         {
+            if (bus == null)
+            {
+                throw new ArgumentNullException("bus");
+            }
+            if (mail == null)
+            {
+                throw new ArgumentNullException("mail");
+            }
+            mail.ValidateMail();
             var message = new MailMessage
                 {
                     Bcc = mail.Bcc,
@@ -24,7 +33,7 @@ namespace NServiceBusMail
                     HeadersEncoding = mail.HeadersEncoding,
                     IsBodyHtml = mail.IsBodyHtml,
                     Priority = mail.Priority,
-                    ReplyToList = mail.ReplyToList,
+                    ReplyToList = mail.ReplyTo,
                     Sender = mail.Sender,
                     Subject = mail.Subject,
                     SubjectEncoding = mail.SubjectEncoding,
@@ -33,6 +42,7 @@ namespace NServiceBusMail
             var scope = Configure.Instance.GetMasterNodeAddress().SubScope("Mail");
             bus.Send(scope, message);
         }
+
 
         internal static DateTime TimeSent(this IBus bus)
         {

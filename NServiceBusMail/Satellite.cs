@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 using System.Linq;
 using System.Net.Mail;
 using NServiceBus;
@@ -11,9 +10,9 @@ namespace NServiceBusMail
 
     class Satellite : ISatellite
     {
-        public ISmtpBuilder SmtpBuilder { get; set; }
-        public IMessageSerializer MessageSerializer { get; set; }
-        public IBus Bus { get; set; }
+        public ISmtpBuilder SmtpBuilder;
+        public IMessageSerializer MessageSerializer;
+        public IBus Bus;
 
         public Satellite()
         {
@@ -36,85 +35,20 @@ namespace NServiceBusMail
                     var originalRecipientCount = mailMessage.To.Count + mailMessage.Bcc.Count + mailMessage.CC.Count;
                     if (ex.InnerExceptions.Length == originalRecipientCount)
                     {
-
-                        //All messages failed. So safe to throw and cause a re-send
+                        //All messages failed. So safe to throw and cause a re-handle of the message
                         throw;
                     }
-                    foreach (var recipientException in ex.InnerExceptions)
-                    {
-                        HandleFailedRecipient(recipientException, sendEmail, GetForwardBody(sendEmail));
-                    }
+                    var messageForwarder = new MessageForwarder
+                        {
+                            Bus = Bus, 
+                            FailedRecipients = ex.InnerExceptions.Select(x => x.FailedRecipient).ToList(), 
+                            OriginalMessage = sendEmail
+                        };
+                    messageForwarder.SendToFailedRecipients();
                 }
             }
             return true;
         }
-
-        void HandleFailedRecipient(SmtpFailedRecipientException recipientException, MailMessage sendEmail, string newBody)
-        {
-            var retryMessage = new MailMessage
-                {
-                    To = new List<string> {recipientException.FailedRecipient},
-                    From = sendEmail.From,
-                    Body = newBody,
-                    BodyEncoding = sendEmail.BodyEncoding,
-                    DeliveryNotificationOptions = sendEmail.DeliveryNotificationOptions,
-                    Headers = sendEmail.Headers,
-                    HeadersEncoding = sendEmail.HeadersEncoding,
-                    IsBodyHtml = sendEmail.IsBodyHtml,
-                    Priority = sendEmail.Priority,
-                    ReplyToList = sendEmail.ReplyToList,
-                    Sender = sendEmail.Sender,
-                    Subject = sendEmail.Subject,
-                    SubjectEncoding = sendEmail.SubjectEncoding,
-                };
-            var scope = Configure.Instance.GetMasterNodeAddress().SubScope("Mail");
-            Bus.Send(scope, retryMessage);
-        }
-
-        string GetForwardBody(MailMessage original)
-        {
-            if (original.IsBodyHtml)
-            {
-                return GetHtmlPrefix(original);
-            }
-            return GetTextPrefix(original);
-        }
-
-        string GetTextPrefix(MailMessage original)
-        {
-            return string.Format(
-                @"
-This message was forwarded due to the original email failing to send
------Original Message-----
-To: {0}
-CC: {1}
-Sent: {2}
-
-{3}
-",
-                string.Join(",", original.To),
-                string.Join(",", original.Cc),
-                Bus.TimeSent().ToString("R"),
-                original.Body);
-        }
-
-        string GetHtmlPrefix(MailMessage original)
-        {
-            return string.Format(
-                @"
-This message was forwarded due to the original email failing to send<br/>
------Original Message-----<br/>
-To: {0}<br/>
-CC: {1}<br/>
-Sent: {2}<br/><br/>
-{3}
-",
-                string.Join(",", original.To),
-                string.Join(",", original.Cc),
-                Bus.TimeSent().ToString("R"),
-                original.Body);
-        }
-
 
         MailMessage DeserializeMessage(TransportMessage message)
         {

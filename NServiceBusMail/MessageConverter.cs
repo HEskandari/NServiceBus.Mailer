@@ -2,7 +2,7 @@
 
 namespace NServiceBusMail
 {
-    static class MailMessageConverter
+    static class MessageConverter
     {
         public static System.Net.Mail.MailMessage ToMailMessage(this MailMessage mail)
         {

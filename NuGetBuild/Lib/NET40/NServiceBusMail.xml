@@ -1,0 +1,105 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>NServiceBusMail</name>
+    </assembly>
+    <members>
+        <member name="M:NServiceBusMail.BusExtensions.SendMail(NServiceBus.IBus,NServiceBusMail.Mail)">
+            <summary>
+            Sends the specified <see cref="T:NServiceBusMail.Mail"/> via the <see cref="T:NServiceBus.IBus"/> to an SMTP server for delivery.
+            </summary>
+            <param name="bus">The <see cref="T:NServiceBus.IBus"/> that is sending the message.</param>
+            <param name="mail">The <see cref="T:NServiceBusMail.Mail"/> to send.</param>
+        </member>
+        <member name="T:NServiceBusMail.ISmtpBuilder">
+            <summary>
+            Factory for constructing a <see cref="T:System.Net.Mail.SmtpClient"/>/
+            </summary>
+        </member>
+        <member name="M:NServiceBusMail.ISmtpBuilder.BuildClient">
+            <summary>
+            Build a new <see cref="T:System.Net.Mail.SmtpClient"/>.
+            </summary>
+        </member>
+        <member name="T:NServiceBusMail.Mail">
+            <summary>
+            Represents an e-mail message that can be sent using the <see cref="M:NServiceBusMail.BusExtensions.SendMail(NServiceBus.IBus,NServiceBusMail.Mail)"/>.
+            </summary>
+        </member>
+        <member name="F:NServiceBusMail.Mail.To">
+            <summary>
+            The address collection that contains the recipients of this e-mail message.
+            </summary> 
+        </member>
+        <member name="F:NServiceBusMail.Mail.Bcc">
+            <summary>
+            The address collection that contains the blind carbon copy (BCC) recipients for this e-mail message.
+            </summary>
+        </member>
+        <member name="F:NServiceBusMail.Mail.Body">
+            <summary>
+            The message body.
+            </summary>
+        </member>
+        <member name="F:NServiceBusMail.Mail.Cc">
+            <summary>
+            The address collection that contains the carbon copy (CC) recipients for this e-mail message.
+            </summary> 
+        </member>
+        <member name="F:NServiceBusMail.Mail.BodyEncoding">
+            <summary>
+            The encoding used to encode the message body.
+            </summary>
+        </member>
+        <member name="F:NServiceBusMail.Mail.DeliveryNotificationOptions">
+            <summary>
+            The delivery notifications for this e-mail message.
+            </summary>
+        </member>
+        <member name="F:NServiceBusMail.Mail.From">
+            <summary>
+            The from address for this e-mail message.
+            </summary> 
+        </member>
+        <member name="F:NServiceBusMail.Mail.Headers">
+            <summary>
+            The e-mail headers that are transmitted with this e-mail message.
+            </summary> 
+        </member>
+        <member name="F:NServiceBusMail.Mail.HeadersEncoding">
+            <summary>
+            The encoding used for the user-defined custom headers for this e-mail message.
+            </summary> 
+        </member>
+        <member name="F:NServiceBusMail.Mail.IsBodyHtml">
+            <summary>
+            A value indicating whether the mail message body is in Html.
+            </summary> 
+        </member>
+        <member name="F:NServiceBusMail.Mail.ReplyTo">
+            <summary>
+            The list of addresses to reply to for the mail message.
+            </summary> 
+        </member>
+        <member name="F:NServiceBusMail.Mail.Sender">
+            <summary>
+            The sender's address for this e-mail message.
+            </summary> 
+        </member>
+        <member name="F:NServiceBusMail.Mail.Subject">
+            <summary>
+            The subject line for this e-mail message.
+            </summary> 
+        </member>
+        <member name="F:NServiceBusMail.Mail.SubjectEncoding">
+            <summary>
+            The encoding used for the subject content for this e-mail message.
+            </summary> 
+        </member>
+        <member name="F:NServiceBusMail.Mail.Priority">
+            <summary>
+            The priority of this e-mail message.
+            </summary> 
+        </member>
+    </members>
+</doc>

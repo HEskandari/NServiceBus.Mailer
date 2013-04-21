@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Text;
+using NLog.Targets;
 using NServiceBus;
 using NServiceBus.Installation.Environments;
 using NServiceBusMail;
@@ -9,6 +11,9 @@ class Program
     {
         Configure.GetEndpointNameAction = () => "NServiceBusMailSample";
 
+        Encoding bodyEncoding = new System.Net.Mail.MailMessage().BodyEncoding;
+
+        var consoleTarget = new ConsoleTarget();
         var configure = Configure
             .With().DefaultBuilder();
 
@@ -16,6 +21,7 @@ class Program
             .Configurer
             .ConfigureComponent<ISmtpBuilder>(_ => new ToDirectorySmtpBuilder(), DependencyLifecycle.SingleInstance);
         configure.JsonSerializer();
+        configure.NLog(consoleTarget);
         configure.UseTransport<Msmq>();
         configure.UnicastBus();
         var bus = configure
@@ -27,7 +33,6 @@ class Program
                 From = "from@fake.com"
             };
         bus.SendMail(mail);
-      //  bus.SendMail(mail);
         Console.ReadLine();
     }
 }

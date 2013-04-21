@@ -28,7 +28,7 @@ namespace NServiceBusMail
         /// <summary>
         /// The address collection that contains the carbon copy (CC) recipients for this e-mail message.
         /// </summary> 
-        public List<string> Cc = new List<string>();
+        public AddressList Cc = new AddressList();
 
         /// <summary>
         /// The encoding used to encode the message body.
@@ -63,7 +63,7 @@ namespace NServiceBusMail
         /// <summary>
         /// The list of addresses to reply to for the mail message.
         /// </summary> 
-        public AddressList ReplyToList = new AddressList();
+        public AddressList ReplyTo = new AddressList();
 
         /// <summary>
         /// The sender's address for this e-mail message.
@@ -79,7 +79,6 @@ namespace NServiceBusMail
         /// The encoding used for the subject content for this e-mail message.
         /// </summary> 
         public Encoding SubjectEncoding;
-
 
         /// <summary>
         /// The priority of this e-mail message.

@@ -14,26 +14,30 @@ namespace NServiceBusMail
             var newBody = GetForwardBody(OriginalMessage);
             foreach (var failedRecipient in FailedRecipients)
             {
-
-                var retryMessage = new MailMessage
-                    {
-                        To = new List<string> { failedRecipient },
-                        From = OriginalMessage.From,
-                        Body = newBody,
-                        BodyEncoding = OriginalMessage.BodyEncoding,
-                        DeliveryNotificationOptions = OriginalMessage.DeliveryNotificationOptions,
-                        Headers = OriginalMessage.Headers,
-                        HeadersEncoding = OriginalMessage.HeadersEncoding,
-                        IsBodyHtml = OriginalMessage.IsBodyHtml,
-                        Priority = OriginalMessage.Priority,
-                        ReplyToList = OriginalMessage.ReplyToList,
-                        Sender = OriginalMessage.Sender,
-                        Subject = OriginalMessage.Subject,
-                        SubjectEncoding = OriginalMessage.SubjectEncoding,
-                    };
-                var scope = Configure.Instance.GetMasterNodeAddress().SubScope("Mail");
-                Bus.Send(scope, retryMessage);   
+                ReSend(failedRecipient, newBody);
             }
+        }
+
+        void ReSend(string failedRecipient, string newBody)
+        {
+            var retryMessage = new MailMessage
+                {
+                    To = new List<string> {failedRecipient},
+                    From = OriginalMessage.From,
+                    Body = newBody,
+                    BodyEncoding = OriginalMessage.BodyEncoding,
+                    DeliveryNotificationOptions = OriginalMessage.DeliveryNotificationOptions,
+                    Headers = OriginalMessage.Headers,
+                    HeadersEncoding = OriginalMessage.HeadersEncoding,
+                    IsBodyHtml = OriginalMessage.IsBodyHtml,
+                    Priority = OriginalMessage.Priority,
+                    ReplyToList = OriginalMessage.ReplyToList,
+                    Sender = OriginalMessage.Sender,
+                    Subject = OriginalMessage.Subject,
+                    SubjectEncoding = OriginalMessage.SubjectEncoding,
+                };
+            var scope = Configure.Instance.GetMasterNodeAddress().SubScope("Mail");
+            Bus.Send(scope, retryMessage);
         }
 
         string GetForwardBody(MailMessage original)
