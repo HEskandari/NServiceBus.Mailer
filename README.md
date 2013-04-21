@@ -65,12 +65,12 @@ Since it is not practical to send binary data as part of messages there is an al
 
 ### Create a class inheriting from `AttachmentContext` 
 
+    // attachmentContext will be the same dictionary you passed in on Mail.AttachmentContext when calling BusExtensions.SendMail.
     public class AttachmentFinder : IAttachmentFinder
     {
         public IEnumerable<Attachment> FindAttachments(Dictionary<string, string> attachmentContext)
         {
             // Find the Attachments for the given context. 
-            // attachmentContext will be the same dictionary you passed in on Mail.AttachmentContext when calling BusExtensions.SendMail.
             var id = attachmentContext["Id"];
             var memoryStream = new MemoryStream(Encoding.ASCII.GetBytes("Hello"));
             yield return new Attachment(memoryStream, "example.txt", "text/plain");
@@ -79,7 +79,6 @@ Since it is not practical to send binary data as part of messages there is an al
         public void CleanAttachments(Dictionary<string, string> attachmentContext)
         {
             // Attachment cleanup can be performed here
-            // attachmentContext will be the same dictionary you passed in on Mail.AttachmentContext when calling BusExtensions.SendMail.
         }
     }
 
@@ -93,7 +92,7 @@ Then configure the instance to be injected into the NSerivceBus Container.
 
 ### Pass an `AttachmentContext` when sending the email
 
-Pass an `AttachmentContext` when calling `SendMail`
+Pass an `AttachmentContext` when calling `SendMail`. The `AttachmentContext` should contain enough information for you to derive how to find and return the attachments for the email. 
 
         var mail = new Mail
             {

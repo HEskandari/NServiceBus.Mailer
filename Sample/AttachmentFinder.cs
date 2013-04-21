@@ -4,18 +4,19 @@ using System.Net.Mail;
 using System.Text;
 using NServiceBusMailer;
 
+    // attachmentContext will be the same dictionary you passed in on Mail.AttachmentContext when calling BusExtensions.SendMail.
     public class AttachmentFinder : IAttachmentFinder
     {
-        public IEnumerable<Attachment> FindAttachments(Dictionary<string, string> mailContext)
+        public IEnumerable<Attachment> FindAttachments(Dictionary<string, string> attachmentContext)
         {
-            //id can be used to retrieve attachments
-            var id = mailContext["Id"];
+            // Find the Attachments for the given context. 
+            var id = attachmentContext["Id"];
             var memoryStream = new MemoryStream(Encoding.ASCII.GetBytes("Hello"));
             yield return new Attachment(memoryStream, "example.txt", "text/plain");
         }
 
-        public void CleanAttachments(Dictionary<string, string> mailContext)
+        public void CleanAttachments(Dictionary<string, string> attachmentContext)
         {
-            //Attachment cleanup can be performed here
+            // Attachment cleanup can be performed here
         }
     }
