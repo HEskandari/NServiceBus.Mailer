@@ -3,14 +3,12 @@ using System.Collections.Generic;
 
 namespace NServiceBusMailer
 {
+    /// <summary>
+    /// Store e-mail addresses that are associated with an e-mail message.
+    /// </summary>
     public class AddressList: IList<string>
     {
-        List<string> innerList;
-
-        public AddressList()
-        {
-             innerList = new List<string>();
-        }
+        List<string> innerList = new List<string>();
 
         public static implicit operator AddressList(string address)
         {
@@ -54,6 +52,7 @@ namespace NServiceBusMailer
         {
              innerList.CopyTo(array,arrayIndex);
         }
+
 
         public bool Remove(string item)
         {

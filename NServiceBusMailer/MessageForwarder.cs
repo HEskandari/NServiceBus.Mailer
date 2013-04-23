@@ -35,7 +35,8 @@ namespace NServiceBusMailer
                     Sender = OriginalMessage.Sender,
                     Subject = OriginalMessage.Subject,
                     SubjectEncoding = OriginalMessage.SubjectEncoding,
-                    AttachmentContext = OriginalMessage.AttachmentContext
+                    AttachmentContext = OriginalMessage.AttachmentContext,
+                    AlternateViews = OriginalMessage.AlternateViews,
                 };
             var scope = Configure.Instance.GetMasterNodeAddress().SubScope("Mail");
             Bus.Send(scope, retryMessage);

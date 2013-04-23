@@ -90,5 +90,9 @@ namespace NServiceBusMailer
         /// </summary> 
         public MailPriority Priority;
 
+        /// <summary>
+        /// The collection used to store alternate forms of the message body.
+        /// </summary>
+        public List<AlternateView> AlternateViews = new List<AlternateView>();
     }
 }

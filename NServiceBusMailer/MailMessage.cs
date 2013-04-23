@@ -5,6 +5,7 @@ using NServiceBus;
 
 namespace NServiceBusMailer
 {
+
     class MailMessage:IMessage
     {
         public List<string> To;
@@ -23,5 +24,7 @@ namespace NServiceBusMailer
         public Encoding SubjectEncoding;
         public MailPriority Priority;
         public Dictionary<string, string> AttachmentContext;
+
+        public List<AlternateView> AlternateViews;
     }
 }

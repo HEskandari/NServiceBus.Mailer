@@ -3,13 +3,16 @@ using NServiceBus;
 
 namespace NServiceBusMailer
 {
+    /// <summary>
+    /// Helper class for sending emails through an <see cref="IBus"/>.
+    /// </summary>
     public static class BusExtensions
     {
         /// <summary>
-        /// Sends the specified <see cref="NServiceBusMail.Mail"/> via the <see cref="IBus"/> to an SMTP server for delivery.
+        /// Sends the specified <see cref="NServiceBusMailer.Mail"/> via the <see cref="IBus"/> to an SMTP server for delivery.
         /// </summary>
         /// <param name="bus">The <see cref="IBus"/> that is sending the message.</param>
-        /// <param name="mail">The <see cref="NServiceBusMail.Mail"/> to send.</param>
+        /// <param name="mail">The <see cref="NServiceBusMailer.Mail"/> to send.</param>
         public static void SendMail(this IBus bus, Mail mail)
         {
             if (bus == null)

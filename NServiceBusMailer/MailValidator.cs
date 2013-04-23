@@ -23,6 +23,10 @@ namespace NServiceBusMailer
             {
                 throw new ArgumentException("ReplyTo cannot be null");
             }
+            if (mail.AlternateViews == null)
+            {
+                throw new ArgumentException("AlternateViews cannot be null");
+            }
             if (mail.Body == null)
             {
                 throw new ArgumentException("Body cannot be null");

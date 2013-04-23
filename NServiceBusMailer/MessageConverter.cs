@@ -1,12 +1,15 @@
 ﻿using System.Net.Mail;
+using System.Net.Mime;
+using SystemAlternateView = System.Net.Mail.AlternateView;
+using SystemMailMessage = System.Net.Mail.MailMessage;
 
 namespace NServiceBusMailer
 {
     static class MessageConverter
     {
-        public static System.Net.Mail.MailMessage ToMailMessage(this MailMessage mail)
+        public static SystemMailMessage ToMailMessage(this MailMessage mail)
         {
-            var message = new System.Net.Mail.MailMessage
+            var message = new SystemMailMessage
                 {
                     DeliveryNotificationOptions = mail.DeliveryNotificationOptions,
                     IsBodyHtml = mail.IsBodyHtml,
@@ -26,6 +29,13 @@ namespace NServiceBusMailer
             if (mail.Sender != null)
             {
                 message.Sender = new MailAddress(mail.Sender);
+            }
+
+            foreach (var alternateView in mail.AlternateViews)
+            {
+                var mimeType = new ContentType(alternateView.ContentType);
+                var systemAlternateView = SystemAlternateView.CreateAlternateViewFromString(alternateView.Content, mimeType);
+                message.AlternateViews.Add(systemAlternateView);
             }
 
             mail.To.ForEach(a => message.To.Add(new MailAddress(a)));

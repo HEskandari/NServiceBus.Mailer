@@ -69,6 +69,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AddressList.cs" />
+    <Compile Include="AlternateView.cs" />
     <Compile Include="BusExtensions.cs" />
     <Compile Include="DefaultSmtpBuilder.cs" />
     <Compile Include="IAttachmentFinder.cs" />
