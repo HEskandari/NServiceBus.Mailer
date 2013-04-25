@@ -7,6 +7,10 @@ namespace NServiceBusMailer
 
         public static void ValidateMail(this Mail mail)
         {
+            if (mail == null)
+            {
+                throw new ArgumentNullException("mail");
+            }
             if (mail.Bcc == null)
             {
                 throw new ArgumentException("Bcc cannot be null");

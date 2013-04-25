@@ -7,6 +7,30 @@ namespace NServiceBusMailer
 {
     static class MessageConverter
     {
+        public static MailMessage ToMailMessage(this Mail mail)
+        {
+            return new MailMessage
+            {
+                Bcc = mail.Bcc,
+                Body = mail.Body,
+                BodyEncoding = mail.BodyEncoding,
+                Cc = mail.Cc,
+                DeliveryNotificationOptions = mail.DeliveryNotificationOptions,
+                From = mail.From,
+                Headers = mail.Headers,
+                HeadersEncoding = mail.HeadersEncoding,
+                IsBodyHtml = mail.IsBodyHtml,
+                Priority = mail.Priority,
+                ReplyTo = mail.ReplyTo,
+                Sender = mail.Sender,
+                Subject = mail.Subject,
+                SubjectEncoding = mail.SubjectEncoding,
+                To = mail.To,
+                AttachmentContext = mail.AttachmentContext,
+                AlternateViews = mail.AlternateViews,
+            };
+        }
+
         public static SystemMailMessage ToMailMessage(this MailMessage mail)
         {
             var message = new SystemMailMessage

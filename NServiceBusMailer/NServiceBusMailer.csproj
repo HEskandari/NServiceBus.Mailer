@@ -44,6 +44,12 @@
     <DocumentationFile>bin\Deployable\NServiceBusMailer.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ApprovalTests">
+      <HintPath>..\packages\ApprovalTests.2.2\lib\ApprovalTests.dll</HintPath>
+    </Reference>
+    <Reference Include="ApprovalUtilities">
+      <HintPath>..\packages\ApprovalTests.2.2\lib\ApprovalUtilities.dll</HintPath>
+    </Reference>
     <Reference Include="NServiceBus, Version=4.0.0.0, Culture=neutral, PublicKeyToken=9fc386479f8a226c, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\NServiceBus.Interfaces.4.0.0-unstable2951\lib\net40\NServiceBus.dll</HintPath>
@@ -56,7 +62,7 @@
       <HintPath>..\packages\NUnit.2.6.2\lib\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="Scalpel">
-      <HintPath>..\packages\Scalpel.Fody.0.11.0.0\Lib\NET40\Scalpel.dll</HintPath>
+      <HintPath>..\packages\Scalpel.Fody.0.12.0.0\Lib\NET40\Scalpel.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System" />
@@ -77,6 +83,7 @@
     <Compile Include="MailValidator.cs" />
     <Compile Include="MessageConverter.cs" />
     <Compile Include="Mail.cs" />
+    <Compile Include="MessageConverterTests.cs" />
     <Compile Include="MessageForwarder.cs" />
     <Compile Include="Satellite.cs" />
     <Compile Include="AssemblyInfo.cs" />

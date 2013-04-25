@@ -19,32 +19,9 @@ namespace NServiceBusMailer
             {
                 throw new ArgumentNullException("bus");
             }
-            if (mail == null)
-            {
-                throw new ArgumentNullException("mail");
-            }
             mail.ValidateMail();
-            var message = new MailMessage
-                {
-                    Bcc = mail.Bcc,
-                    Body = mail.Body,
-                    BodyEncoding = mail.BodyEncoding,
-                    Cc = mail.Cc,
-                    DeliveryNotificationOptions = mail.DeliveryNotificationOptions,
-                    From = mail.From,
-                    Headers = mail.Headers,
-                    HeadersEncoding = mail.HeadersEncoding,
-                    IsBodyHtml = mail.IsBodyHtml,
-                    Priority = mail.Priority,
-                    ReplyTo = mail.ReplyTo,
-                    Sender = mail.Sender,
-                    Subject = mail.Subject,
-                    SubjectEncoding = mail.SubjectEncoding,
-                    To = mail.To,
-                    AttachmentContext = mail.AttachmentContext,
-                };
             var scope = Configure.Instance.GetMasterNodeAddress().SubScope("Mail");
-            bus.Send(scope, message);
+            bus.Send(scope, mail.ToMailMessage());
         }
 
 
