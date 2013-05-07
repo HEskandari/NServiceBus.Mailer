@@ -1,15 +1,15 @@
-NServiceBus.Mail
+NServiceBus.Mailer
 ===============
 
 ## Nuget
 
-https://nuget.org/packages/NServiceBus.Mail/
+https://nuget.org/packages/NServiceBus.Mailer/
     
-    PM> Install-Package NServiceBus.Mail -Pre
+    PM> Install-Package NServiceBus.Mailer -Pre
 
 ## Usage 
      
-    using NServiceBus.Mail; 
+    using NServiceBus.Mailer; 
     var mail = new Mail
             {
                 To = "to@fake.email",
