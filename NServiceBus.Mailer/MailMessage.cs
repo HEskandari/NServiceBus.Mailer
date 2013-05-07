@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Net.Mail;
 using System.Text;
-using NServiceBus;
 
-namespace NServiceBusMailer
+namespace NServiceBus.Mailer
 {
 
     class MailMessage:IMessage

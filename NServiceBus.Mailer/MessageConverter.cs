@@ -3,7 +3,7 @@ using System.Net.Mime;
 using SystemAlternateView = System.Net.Mail.AlternateView;
 using SystemMailMessage = System.Net.Mail.MailMessage;
 
-namespace NServiceBusMailer
+namespace NServiceBus.Mailer
 {
     static class MessageConverter
     {

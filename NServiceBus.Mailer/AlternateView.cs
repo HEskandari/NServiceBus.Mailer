@@ -1,4 +1,4 @@
-﻿namespace NServiceBusMailer
+﻿namespace NServiceBus.Mailer
 {
     /// <summary>
     /// Represents the format to view an email message.

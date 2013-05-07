@@ -2,7 +2,7 @@
 using System.IO;
 using System.Net.Mail;
 using System.Text;
-using NServiceBusMailer;
+using NServiceBus.Mailer;
 
     // attachmentContext will be the same dictionary you passed in on Mail.AttachmentContext when calling BusExtensions.SendMail.
     public class AttachmentFinder : IAttachmentFinder

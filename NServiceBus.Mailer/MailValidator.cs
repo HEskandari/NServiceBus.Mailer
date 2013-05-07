@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NServiceBusMailer
+namespace NServiceBus.Mailer
 {
     static class MailValidator
     {

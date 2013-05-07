@@ -1,11 +1,10 @@
 ﻿using System.IO;
 using System.Linq;
 using System.Net.Mail;
-using NServiceBus;
 using NServiceBus.Satellites;
 using NServiceBus.Serialization;
 
-namespace NServiceBusMailer
+namespace NServiceBus.Mailer
 {
 
     class Satellite : ISatellite

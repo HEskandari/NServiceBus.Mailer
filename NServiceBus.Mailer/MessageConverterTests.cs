@@ -5,7 +5,7 @@ using System.Net.Mail;
 using System.Text;
 using NUnit.Framework;
 
-namespace NServiceBusMailer
+namespace NServiceBus.Mailer
 {
     [TestFixture]
     class MessageConverterTests

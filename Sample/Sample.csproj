@@ -70,9 +70,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\NServiceBusMailer\NServiceBusMailer.csproj">
+    <ProjectReference Include="..\NServiceBus.Mailer\NServiceBus.Mailer.csproj">
       <Project>{9E81FDDA-66E8-48EE-9057-429EF8813DA1}</Project>
-      <Name>NServiceBusMailer</Name>
+      <Name>NServiceBus.Mailer</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

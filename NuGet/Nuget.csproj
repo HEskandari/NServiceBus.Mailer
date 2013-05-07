@@ -25,21 +25,21 @@
   <UsingTask TaskName="PepitaPackage.WeavingTask" AssemblyFile="$(SolutionDir)Tools\Pepita\PepitaPackage.dll" />
   <Target Name="NuGetBuild" DependsOnTargets="Clean">
     <MakeDir Directories="$(SolutionDir)NuGetBuild" />
-    <Copy SourceFiles="$(SolutionDir)NServiceBusMailer\bin\$(ConfigurationName)\NServiceBusMailer.dll" DestinationFolder="$(SolutionDir)NuGetBuild\Lib\NET40" />
-    <Copy SourceFiles="$(SolutionDir)NServiceBusMailer\bin\$(ConfigurationName)\NServiceBusMailer.pdb" DestinationFolder="$(SolutionDir)NuGetBuild\Lib\NET40" />
-    <Copy SourceFiles="$(SolutionDir)NServiceBusMailer\bin\$(ConfigurationName)\NServiceBusMailer.xml" DestinationFolder="$(SolutionDir)NuGetBuild\Lib\NET40" />
-    <Copy SourceFiles="$(SolutionDir)NuGet\NServiceBusMailer.nuspec" DestinationFolder="$(SolutionDir)NuGetBuild" />
-    <PepitaPackage.WeavingTask NuGetBuildDirectory="$(SolutionDir)NuGetBuild" MetadataAssembly="$(SolutionDir)NServiceBusMailer\bin\$(ConfigurationName)\NServiceBusMailer.dll" />
+    <Copy SourceFiles="$(SolutionDir)NServiceBus.Mailer\bin\$(ConfigurationName)\NServiceBus.Mailer.dll" DestinationFolder="$(SolutionDir)NuGetBuild\Lib\NET40" />
+    <Copy SourceFiles="$(SolutionDir)NServiceBus.Mailer\bin\$(ConfigurationName)\NServiceBus.Mailer.pdb" DestinationFolder="$(SolutionDir)NuGetBuild\Lib\NET40" />
+    <Copy SourceFiles="$(SolutionDir)NServiceBus.Mailer\bin\$(ConfigurationName)\NServiceBus.Mailer.xml" DestinationFolder="$(SolutionDir)NuGetBuild\Lib\NET40" />
+    <Copy SourceFiles="$(SolutionDir)NuGet\NServiceBus.Mailer.nuspec" DestinationFolder="$(SolutionDir)NuGetBuild" />
+    <PepitaPackage.WeavingTask NuGetBuildDirectory="$(SolutionDir)NuGetBuild" MetadataAssembly="$(SolutionDir)NServiceBus.Mailer\bin\$(ConfigurationName)\NServiceBus.Mailer.dll" />
   </Target>
   <ItemGroup>
-    <None Include="NServiceBusMailer.nuspec">
+    <None Include="NServiceBus.Mailer.nuspec">
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\NServiceBusMailer\NServiceBusMailer.csproj">
+    <ProjectReference Include="..\NServiceBus.Mailer\NServiceBus.Mailer.csproj">
       <Project>{9e81fdda-66e8-48ee-9057-429ef8813da1}</Project>
-      <Name>NServiceBusMailer</Name>
+      <Name>NServiceBus.Mailer</Name>
     </ProjectReference>
   </ItemGroup>
 </Project>

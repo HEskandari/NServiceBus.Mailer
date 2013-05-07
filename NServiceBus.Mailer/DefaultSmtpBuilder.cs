@@ -1,6 +1,6 @@
 ﻿using System.Net.Mail;
 
-namespace NServiceBusMailer
+namespace NServiceBus.Mailer
 {
     /// <summary>
     /// The default <see cref="ISmtpBuilder"/>.
