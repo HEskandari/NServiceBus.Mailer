@@ -21,7 +21,8 @@ class Program
         configure
             .Configurer
             .ConfigureComponent<IAttachmentFinder>(_ => new AttachmentFinder(), DependencyLifecycle.SingleInstance);
-        configure.JsonSerializer();
+
+        Configure.Serialization.Json();
         configure.NLog(consoleTarget);
         configure.UseTransport<Msmq>();
         configure.UnicastBus();
