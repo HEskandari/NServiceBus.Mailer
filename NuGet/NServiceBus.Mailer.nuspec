@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
     <id>NServiceBus.Mailer</id>
-    <version>$version$-preRelease</version>
+    <version>$version$</version>
     <title>NServiceBus.Mailer</title>
     <authors>Simon Cropp</authors>
     <owners>Simon Cropp</owners>

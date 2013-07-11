@@ -90,7 +90,6 @@
     <Compile Include="Satellite.cs" />
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="MailMessage.cs" />
-    <Content Include="Fody_ToBeDeleted.txt" />
     <None Include="Fody.targets" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
