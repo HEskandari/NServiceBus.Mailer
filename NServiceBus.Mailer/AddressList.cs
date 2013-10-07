@@ -1,8 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-
-namespace NServiceBus.Mailer
+﻿namespace NServiceBus.Mailer
 {
+    using System.Collections;
+    using System.Collections.Generic;
+
+
     /// <summary>
     /// Store e-mail addresses that are associated with an e-mail message.
     /// </summary>

@@ -1,12 +1,12 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Net.Mail;
-using System.Text;
-using NUnit.Framework;
-
-namespace NServiceBus.Mailer
+﻿namespace NServiceBus.Mailer
 {
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Linq;
+    using System.Net.Mail;
+    using System.Text;
+    using NUnit.Framework;
+
     [TestFixture]
     class MessageConverterTests
     {

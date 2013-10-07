@@ -1,11 +1,13 @@
-﻿using System.IO;
-using System.Linq;
-using System.Net.Mail;
-using NServiceBus.Satellites;
-using NServiceBus.Serialization;
-
-namespace NServiceBus.Mailer
+﻿namespace NServiceBus.Mailer
 {
+    using System.IO;
+    using System.Linq;
+    using System.Net.Mail;
+    using NServiceBus;
+    // ReSharper disable RedundantNameQualifier
+    using NServiceBus.Satellites;
+    using NServiceBus.Serialization;
+    // ReSharper restore RedundantNameQualifier
 
     class Satellite : ISatellite
     {

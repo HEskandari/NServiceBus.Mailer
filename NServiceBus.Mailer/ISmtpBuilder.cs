@@ -1,7 +1,7 @@
-﻿using System.Net.Mail;
-
-namespace NServiceBus.Mailer
+﻿namespace NServiceBus.Mailer
 {
+    using System.Net.Mail;
+
     /// <summary>
     /// Factory for constructing a <see cref="SmtpClient"/>/
     /// </summary>

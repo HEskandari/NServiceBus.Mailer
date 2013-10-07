@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
-    <id>NServiceBus.Mailer</id>
+    <id>NServiceBus.Mailer-CodeOnly</id>
     <version>$version$</version>
-    <title>NServiceBus.Mailer</title>
+    <title>NServiceBus.Mailer-CodeOnly</title>
     <authors>Simon Cropp</authors>
     <owners>Simon Cropp</owners>
     <licenseUrl>http://www.opensource.org/licenses/mit-license.php</licenseUrl>
@@ -15,7 +15,7 @@
     <tags>NServiceBus, EMail, NServiceBus.Mailer</tags>
 	  <dependencies>
 		  <group targetFramework=".NETFramework4.0">
-			  <dependency id="NServiceBus" version="4.0.1" />
+			  <dependency id="NServiceBus" version="4.0" />
 		  </group>
 	  </dependencies>
   </metadata>

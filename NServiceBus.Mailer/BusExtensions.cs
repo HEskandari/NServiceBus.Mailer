@@ -1,7 +1,8 @@
-﻿using System;
-
-namespace NServiceBus.Mailer
+﻿namespace NServiceBus.Mailer
 {
+    using NServiceBus;
+    using System;
+
     /// <summary>
     /// Helper class for sending emails through an <see cref="IBus"/>.
     /// </summary>

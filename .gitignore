@@ -41,6 +41,7 @@
 packages/
 ForSample/
 NugetBuild/
+NugetBuildCodeOnly/
 ChocolateyNuGetBuild/
 
 # Visual Studio profiler

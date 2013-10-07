@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Net.Mail;
-using System.Text;
-
-namespace NServiceBus.Mailer
+﻿namespace NServiceBus.Mailer
 {
+    using System.Collections.Generic;
+    using System.Net.Mail;
+    using System.Text;
+
+
     /// <summary>
     /// Represents an e-mail message that can be sent using the <see cref="BusExtensions.SendMail"/>.
     /// </summary>

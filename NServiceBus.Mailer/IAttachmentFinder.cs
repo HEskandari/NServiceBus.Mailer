@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Net.Mail;
-
-namespace NServiceBus.Mailer
+﻿namespace NServiceBus.Mailer
 {
+    using System.Collections.Generic;
+    using System.Net.Mail;
+
     /// <summary>
-    /// Find attachemnts for an email.
+    /// Find attachments for an email.
     /// </summary>
     public interface IAttachmentFinder
     {

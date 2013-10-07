@@ -1,7 +1,8 @@
-﻿using System.Collections.Generic;
-
-namespace NServiceBus.Mailer
+﻿namespace NServiceBus.Mailer
 {
+    using NServiceBus;
+    using System.Collections.Generic;
+
     class MessageForwarder
     {
         public IBus Bus;

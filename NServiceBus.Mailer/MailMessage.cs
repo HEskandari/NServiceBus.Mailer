@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Net.Mail;
-using System.Text;
-
-namespace NServiceBus.Mailer
+﻿namespace NServiceBus.Mailer
 {
+    using System.Collections.Generic;
+    using System.Net.Mail;
+    using System.Text;
+    using NServiceBus;
 
     class MailMessage:IMessage
     {

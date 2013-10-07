@@ -1,10 +1,10 @@
-﻿using System.Net.Mail;
-using System.Net.Mime;
-using SystemAlternateView = System.Net.Mail.AlternateView;
-using SystemMailMessage = System.Net.Mail.MailMessage;
-
-namespace NServiceBus.Mailer
+﻿namespace NServiceBus.Mailer
 {
+    using System.Net.Mail;
+    using System.Net.Mime;
+    using SystemAlternateView = System.Net.Mail.AlternateView;
+    using SystemMailMessage = System.Net.Mail.MailMessage;
+
     static class MessageConverter
     {
         public static MailMessage ToMailMessage(this Mail mail)
