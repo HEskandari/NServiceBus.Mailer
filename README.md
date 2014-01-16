@@ -16,6 +16,7 @@ https://nuget.org/packages/NServiceBus.Mailer/
                 From = "from@fake.email",
                 Body = "This is the body",
                 Subject = "Hello",
+            }
     bus.SendMail(mail);
 
 ## SmtpClient construction 
