@@ -5,7 +5,7 @@ NServiceBus.Mailer
 
 https://nuget.org/packages/NServiceBus.Mailer/
     
-    PM> Install-Package NServiceBus.Mailer -Pre
+    PM> Install-Package NServiceBus.Mailer
 
 ## Usage 
      
