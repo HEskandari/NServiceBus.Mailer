@@ -1,10 +1,10 @@
 NServiceBus.Mailer
 ===============
 
-## Nuget
+## The nuget package  [![NuGet Status](http://img.shields.io/nuget/v/NServiceBus.Mailer.svg?style=flat)](https://www.nuget.org/packages/NServiceBus.Mailer/)
 
 https://nuget.org/packages/NServiceBus.Mailer/
-    
+
     PM> Install-Package NServiceBus.Mailer
 
 ## Usage 
