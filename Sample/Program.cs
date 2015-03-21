@@ -23,6 +23,9 @@ class Program
             .ConfigureComponent<IAttachmentFinder>(_ => new AttachmentFinder(), DependencyLifecycle.SingleInstance);
 
         Configure.Serialization.Json();
+        configure.InMemorySagaPersister();
+        configure.UseInMemoryTimeoutPersister();
+        configure.InMemorySubscriptionStorage();
         configure.NLog(consoleTarget);
         configure.UseTransport<Msmq>();
         configure.UnicastBus();
