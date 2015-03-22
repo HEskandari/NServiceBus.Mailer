@@ -7,17 +7,40 @@ https://nuget.org/packages/NServiceBus.Mailer/
 
     PM> Install-Package NServiceBus.Mailer
 
+## Enabling
+
+```
+var configuration = new BusConfiguration();
+configuration.EndpointName("NServiceBusMailSample");
+var mailerSettings = configuration.EnableMailer();
+```
 ## Usage 
+
+`MailSender` can be resolved from the container.
      
-    using NServiceBus.Mailer; 
-    var mail = new Mail
-            {
-                To = "to@fake.email",
-                From = "from@fake.email",
-                Body = "This is the body",
-                Subject = "Hello",
-            }
-    bus.SendMail(mail);
+```
+public class MyHandler : IHandleMessages<MyMessage>
+{
+    MailSender mailSender;
+
+    public MyHandler(MailSender mailSender)
+    {
+        this.mailSender = mailSender;
+    }
+
+    public void Handle(MyMessage message)
+    {
+        var mail = new Mail
+                   {
+                       To = "to@fake.email",
+                       From = "from@fake.email",
+                       Body = "This is the body",
+                       Subject = "Hello",
+                   };
+        mailSender.SendMail(mail);
+    }
+}
+```
 
 ## SmtpClient construction 
 
@@ -54,11 +77,12 @@ To have your own custom `SmtpClient` simply inherit from `ISmtpBuilder`.
     
 ### Inject `ISmtpBuilder` into the Container
 
-Then configure the instance to be injected into the NSerivceBus Container.
+Then configure your builder.
 
-    configure
-        .Configurer
-        .ConfigureComponent<ISmtpBuilder>(_ => new ToDirectorySmtpBuilder(), DependencyLifecycle.SingleInstance);
+```
+var mailerSettings = configuration.EnableMailer();
+mailerSettings.UseSmtpBuilder<ToDirectorySmtpBuilder>();
+```
             
 ## Attachments
 
@@ -85,11 +109,12 @@ Since it is not practical to send binary data as part of messages there is an al
 
 ### Inject `IAttachmentFinder` into the Container
 
-Then configure the instance to be injected into the NSerivceBus Container.
+Then configure your attachment folder.
 
-    configure
-        .Configurer
-        .ConfigureComponent<IAttachmentFinder>(_ => new AttachmentFinder(), DependencyLifecycle.SingleInstance);
+```
+var mailerSettings = configuration.EnableMailer();
+mailerSettings.UseAttachmentFinder<AttachmentFinder>();
+```
 
 ### Pass an `AttachmentContext` when sending the email
 
