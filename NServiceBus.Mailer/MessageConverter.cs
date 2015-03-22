@@ -34,22 +34,22 @@
         public static SystemMailMessage ToMailMessage(this MailMessage mail)
         {
             var message = new SystemMailMessage
-                {
-                    DeliveryNotificationOptions = mail.DeliveryNotificationOptions,
-                    IsBodyHtml = mail.IsBodyHtml,
-                    Priority = mail.Priority,
-                    Body = mail.Body,
-                    Subject = mail.Subject,
-                    BodyEncoding = mail.BodyEncoding,
-                    SubjectEncoding = mail.SubjectEncoding,
-                    HeadersEncoding = mail.HeadersEncoding
-                };
+            {
+                DeliveryNotificationOptions = mail.DeliveryNotificationOptions,
+                IsBodyHtml = mail.IsBodyHtml,
+                Priority = mail.Priority,
+                Body = mail.Body,
+                Subject = mail.Subject,
+                BodyEncoding = mail.BodyEncoding,
+                SubjectEncoding = mail.SubjectEncoding,
+                HeadersEncoding = mail.HeadersEncoding,
+            };
 
             if (mail.From != null)
             {
                 message.From = new MailAddress(mail.From);
             }
-            
+
             if (mail.Sender != null)
             {
                 message.Sender = new MailAddress(mail.Sender);

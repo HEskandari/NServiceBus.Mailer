@@ -7,7 +7,7 @@
     /// <summary>
     /// Store e-mail addresses that are associated with an e-mail message.
     /// </summary>
-    public class AddressList: IList<string>
+    public class AddressList : IList<string>
     {
         List<string> innerList = new List<string>();
 
@@ -16,7 +16,7 @@
         /// </summary>
         public static implicit operator AddressList(string address)
         {
-            return new AddressList {address};
+            return new AddressList { address };
         }
 
         /// <summary>
@@ -78,7 +78,7 @@
         /// </summary>
         public void CopyTo(string[] array, int arrayIndex)
         {
-             innerList.CopyTo(array,arrayIndex);
+            innerList.CopyTo(array, arrayIndex);
         }
 
 
@@ -103,7 +103,7 @@
 
         bool ICollection<string>.IsReadOnly
         {
-            get { return ((IList<string>) innerList).IsReadOnly; }
+            get { return ((IList<string>)innerList).IsReadOnly; }
         }
 
         /// <summary>
@@ -118,7 +118,7 @@
         /// </summary>
         public void Insert(int index, string item)
         {
-            innerList.Insert(index,item);
+            innerList.Insert(index, item);
         }
 
         /// <summary>

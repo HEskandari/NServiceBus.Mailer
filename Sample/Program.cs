@@ -1,46 +1,31 @@
 ﻿using System;
-using System.Collections.Generic;
-using NLog.Targets;
 using NServiceBus;
-using NServiceBus.Installation.Environments;
 using NServiceBus.Mailer;
 
 class Program
 {
     static void Main()
     {
-        Configure.GetEndpointNameAction = () => "NServiceBusMailSample";
+        var configuration = new BusConfiguration();
+        configuration.EndpointName("NServiceBusMailSample");
 
-        var consoleTarget = new ConsoleTarget();
-        var configure = Configure
-            .With().DefaultBuilder();
+        configuration.UseSerialization<JsonSerializer>();
+        configuration.UsePersistence<InMemoryPersistence>();
+        configuration.EnableInstallers();
 
-        configure
-            .Configurer
-            .ConfigureComponent<ISmtpBuilder>(_ => new ToDirectorySmtpBuilder(), DependencyLifecycle.SingleInstance);
-        configure
-            .Configurer
-            .ConfigureComponent<IAttachmentFinder>(_ => new AttachmentFinder(), DependencyLifecycle.SingleInstance);
+        var mailerSettings = configuration.EnableMailer();
+        mailerSettings.UseSmtpBuilder<ToDirectorySmtpBuilder>();
+        mailerSettings.UseAttachmentFinder<AttachmentFinder>();
 
-        Configure.Serialization.Json();
-        configure.InMemorySagaPersister();
-        configure.UseInMemoryTimeoutPersister();
-        configure.InMemorySubscriptionStorage();
-        configure.NLog(consoleTarget);
-        configure.UseTransport<Msmq>();
-        configure.UnicastBus();
-        var bus = configure
-            .CreateBus()
-            .Start(() => Configure.Instance.ForInstallationOn<Windows>().Install());
-        var mail = new Mail
-            {
-                To = "to@fake.email",
-                From = "from@fake.email",
-                Body = "This is the body",
-                Subject = "Hello",
-                AttachmentContext = new Dictionary<string, string>{{"Id","fakeEmail"}}
-            };
-        bus.SendMail(mail);
-        Console.ReadLine();
+        using (var bus = Bus.Create(configuration))
+        {
+            bus.Start();
+
+            bus.SendLocal(new MyMessage());
+            Console.WriteLine("Press any key to exit");
+            Console.Read();
+
+        }
+
     }
 }

@@ -1,11 +1,10 @@
-﻿namespace NServiceBus.Mailer
-{
-    using System.Collections.Generic;
-    using System.Net.Mail;
-    using System.Text;
-    using NServiceBus;
+using System.Collections.Generic;
+using System.Net.Mail;
+using System.Text;
 
-    class MailMessage:IMessage
+namespace NServiceBus.Mailer
+{
+    class MailMessage : IMessage
     {
         public List<string> To;
         public List<string> Bcc;

@@ -7,12 +7,13 @@ public class ToDirectorySmtpBuilder : ISmtpBuilder
 {
     public SmtpClient BuildClient()
     {
-        var directoryLocation = Path.Combine(Environment.CurrentDirectory, "Emails");
-        Directory.CreateDirectory(directoryLocation);
+        Directory.CreateDirectory(DirectoryLocation);
         return new SmtpClient
             {
                 DeliveryMethod = SmtpDeliveryMethod.SpecifiedPickupDirectory,
-                PickupDirectoryLocation = directoryLocation
+                PickupDirectoryLocation = DirectoryLocation
             };
     }
+
+    public static string DirectoryLocation = Path.Combine(Environment.CurrentDirectory, "Emails");
 }

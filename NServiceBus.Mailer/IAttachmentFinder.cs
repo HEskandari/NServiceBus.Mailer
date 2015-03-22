@@ -1,8 +1,8 @@
-﻿namespace NServiceBus.Mailer
-{
-    using System.Collections.Generic;
-    using System.Net.Mail;
+﻿using System.Collections.Generic;
+using System.Net.Mail;
 
+namespace NServiceBus.Mailer
+{
     /// <summary>
     /// Find attachments for an email.
     /// </summary>

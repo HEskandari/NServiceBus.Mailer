@@ -14,8 +14,8 @@
     <language>en-AU</language>
     <tags>NServiceBus, EMail, NServiceBus.Mailer</tags>
 	  <dependencies>
-		  <group targetFramework=".NETFramework4.0">
-			  <dependency id="NServiceBus" version="4.0" />
+		  <group targetFramework=".NETFramework4.5">
+			  <dependency id="NServiceBus" version="5.0" />
 		  </group>
 	  </dependencies>
   </metadata>

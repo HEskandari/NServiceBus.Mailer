@@ -9,9 +9,10 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>NServiceBus.Mailer</RootNamespace>
     <AssemblyName>NServiceBus.Mailer</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <NuGetPackageImportStamp>b1097993</NuGetPackageImportStamp>
+    <NuGetPackageImportStamp>99e79e46</NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -23,6 +24,7 @@
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Debug\NServiceBus.Mailer.xml</DocumentationFile>
     <NoWarn>0649</NoWarn>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -32,6 +34,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Release\NServiceBus.Mailer.xml</DocumentationFile>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Deployable|AnyCPU'">
     <OutputPath>bin\Deployable\</OutputPath>
@@ -42,6 +45,7 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <DocumentationFile>bin\Deployable\NServiceBus.Mailer.xml</DocumentationFile>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="ApprovalTests, Version=3.0.0.0, Culture=neutral, PublicKeyToken=11bd7d124fc62e0f, processorArchitecture=MSIL">
@@ -52,13 +56,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\ApprovalUtilities.3.0.8\lib\net35\ApprovalUtilities.dll</HintPath>
     </Reference>
-    <Reference Include="NServiceBus, Version=4.6.0.0, Culture=neutral, PublicKeyToken=9fc386479f8a226c, processorArchitecture=MSIL">
+    <Reference Include="NServiceBus.Core, Version=5.0.0.0, Culture=neutral, PublicKeyToken=9fc386479f8a226c, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\NServiceBus.Interfaces.4.6.1\lib\net40\NServiceBus.dll</HintPath>
-    </Reference>
-    <Reference Include="NServiceBus.Core, Version=4.6.0.0, Culture=neutral, PublicKeyToken=9fc386479f8a226c, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\NServiceBus.4.6.1\lib\net40\NServiceBus.Core.dll</HintPath>
+      <HintPath>..\packages\NServiceBus.5.2.0\lib\net45\NServiceBus.Core.dll</HintPath>
     </Reference>
     <Reference Include="nunit.framework, Version=2.6.4.14350, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -77,20 +77,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AddressList.cs" />
-    <Compile Include="AlternateView.cs" />
-    <Compile Include="BusExtensions.cs" />
-    <Compile Include="DefaultSmtpBuilder.cs" />
-    <Compile Include="IAttachmentFinder.cs" />
-    <Compile Include="ISmtpBuilder.cs" />
-    <Compile Include="MailValidator.cs" />
-    <Compile Include="MessageConverter.cs" />
-    <Compile Include="Mail.cs" />
-    <Compile Include="MessageConverterTests.cs" />
-    <Compile Include="MessageForwarder.cs" />
-    <Compile Include="Satellite.cs" />
-    <Compile Include="AssemblyInfo.cs" />
-    <Compile Include="MailMessage.cs" />
     <None Include="NServiceBus.Mailer-CodeOnly.nuspec">
       <SubType>Designer</SubType>
     </None>
@@ -104,9 +90,27 @@
       <SubType>Designer</SubType>
     </Content>
   </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AlternateView.cs" />
+    <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="Mail.cs" />
+    <Compile Include="AddressList.cs" />
+    <Compile Include="MailMessageDerializer.cs" />
+    <Compile Include="MailSender.cs" />
+    <Compile Include="MailValidator.cs" />
+    <Compile Include="MessageConverter.cs" />
+    <Compile Include="DefaultSmtpBuilder.cs" />
+    <Compile Include="IAttachmentFinder.cs" />
+    <Compile Include="ISmtpBuilder.cs" />
+    <Compile Include="MailerConfigurationExtensions.cs" />
+    <Compile Include="MailerConfigurationSettings.cs" />
+    <Compile Include="MailerFeature.cs" />
+    <Compile Include="MailMessage.cs" />
+    <Compile Include="MailSatellite.cs" />
+    <Compile Include="MessageConverterTests.cs" />
+    <Compile Include="RetryMessageBuilder.cs" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <UsingTask TaskName="PepitaPackage.CreatePackageTask" AssemblyFile="$(SolutionDir)Tools\Pepita\PepitaPackage.dll" />
-  <UsingTask TaskName="FileUpdate" AssemblyFile="$(SolutionDir)Tools\MSBuild.Community.Tasks.dll" />
   <Target Name="AfterBuild">
     <ItemGroup>
       <FilesToDelete Include="$(SolutionDir)NuGetBuild\**\*.*" />
@@ -114,27 +118,27 @@
     </ItemGroup>
     <Delete Files="@(FilesToDelete)" />
     <MakeDir Directories="$(SolutionDir)NuGetBuild" />
-    <Copy SourceFiles="$(OutputPath)NServiceBus.Mailer.dll" DestinationFolder="$(SolutionDir)NuGetBuild\Lib\NET40" />
-    <Copy SourceFiles="$(OutputPath)NServiceBus.Mailer.pdb" DestinationFolder="$(SolutionDir)NuGetBuild\Lib\NET40" />
-    <Copy SourceFiles="$(OutputPath)NServiceBus.Mailer.xml" DestinationFolder="$(SolutionDir)NuGetBuild\Lib\NET40" />
+    <Copy SourceFiles="$(OutputPath)NServiceBus.Mailer.dll" DestinationFolder="$(SolutionDir)NuGetBuild\Lib\NET45" />
+    <Copy SourceFiles="$(OutputPath)NServiceBus.Mailer.pdb" DestinationFolder="$(SolutionDir)NuGetBuild\Lib\NET45" />
+    <Copy SourceFiles="$(OutputPath)NServiceBus.Mailer.xml" DestinationFolder="$(SolutionDir)NuGetBuild\Lib\NET45" />
     <Copy SourceFiles="$(ProjectDir)NServiceBus.Mailer.nuspec" DestinationFolder="$(SolutionDir)NuGetBuild" />
     <PepitaPackage.CreatePackageTask NuGetBuildDirectory="$(SolutionDir)NuGetBuild" MetadataAssembly="$(OutputPath)NServiceBus.Mailer.dll" />
-    <Copy SourceFiles="$(ProjectDir)\AddressList.cs" DestinationFiles="$(SolutionDir)NuGetBuildCodeOnly\Content\NServiceBusMailer\AddressList.cs.pp" />
-    <Copy SourceFiles="$(ProjectDir)\AlternateView.cs" DestinationFiles="$(SolutionDir)NuGetBuildCodeOnly\Content\NServiceBusMailer\AlternateView.cs.pp" />
-    <Copy SourceFiles="$(ProjectDir)\BusExtensions.cs" DestinationFiles="$(SolutionDir)NuGetBuildCodeOnly\Content\NServiceBusMailer\BusExtensions.cs.pp" />
-    <Copy SourceFiles="$(ProjectDir)\DefaultSmtpBuilder.cs" DestinationFiles="$(SolutionDir)NuGetBuildCodeOnly\Content\NServiceBusMailer\DefaultSmtpBuilder.cs.pp" />
-    <Copy SourceFiles="$(ProjectDir)\IAttachmentFinder.cs" DestinationFiles="$(SolutionDir)NuGetBuildCodeOnly\Content\NServiceBusMailer\IAttachmentFinder.cs.pp" />
-    <Copy SourceFiles="$(ProjectDir)\ISmtpBuilder.cs" DestinationFiles="$(SolutionDir)NuGetBuildCodeOnly\Content\NServiceBusMailer\ISmtpBuilder.cs.pp" />
-    <Copy SourceFiles="$(ProjectDir)\Mail.cs" DestinationFiles="$(SolutionDir)NuGetBuildCodeOnly\Content\NServiceBusMailer\Mail.cs.pp" />
-    <Copy SourceFiles="$(ProjectDir)\MailMessage.cs" DestinationFiles="$(SolutionDir)NuGetBuildCodeOnly\Content\NServiceBusMailer\MailMessage.cs.pp" />
-    <Copy SourceFiles="$(ProjectDir)\MailValidator.cs" DestinationFiles="$(SolutionDir)NuGetBuildCodeOnly\Content\NServiceBusMailer\MailValidator.cs.pp" />
-    <Copy SourceFiles="$(ProjectDir)\MessageConverter.cs" DestinationFiles="$(SolutionDir)NuGetBuildCodeOnly\Content\NServiceBusMailer\MessageConverter.cs.pp" />
-    <Copy SourceFiles="$(ProjectDir)\MessageForwarder.cs" DestinationFiles="$(SolutionDir)NuGetBuildCodeOnly\Content\NServiceBusMailer\MessageForwarder.cs.pp" />
-    <Copy SourceFiles="$(ProjectDir)\Satellite.cs" DestinationFiles="$(SolutionDir)NuGetBuildCodeOnly\Content\NServiceBusMailer\Satellite.cs.pp" />
-    <ItemGroup>
-      <CsFiles Include="$(SolutionDir)NuGetBuildCodeOnly\Content\NServiceBusMailer\*.cs.pp" />
-    </ItemGroup>
-    <FileUpdate Files="@(CsFiles)" Regex="namespace NServiceBus.Mailer" ReplacementText="namespace $rootnamespace$.NServiceBusMailer" />
+    <Copy SourceFiles="$(ProjectDir)AddressList.cs" DestinationFiles="$(SolutionDir)NuGetBuildCodeOnly\Content\App_Packages\NServiceBusMailer\AddressList.cs.pp" />
+    <Copy SourceFiles="$(ProjectDir)AlternateView.cs" DestinationFiles="$(SolutionDir)NuGetBuildCodeOnly\Content\App_Packages\NServiceBusMailer\AlternateView.cs.pp" />
+    <Copy SourceFiles="$(ProjectDir)DefaultSmtpBuilder.cs" DestinationFiles="$(SolutionDir)NuGetBuildCodeOnly\Content\App_Packages\NServiceBusMailer\DefaultSmtpBuilder.cs.pp" />
+    <Copy SourceFiles="$(ProjectDir)IAttachmentFinder.cs" DestinationFiles="$(SolutionDir)NuGetBuildCodeOnly\Content\App_Packages\NServiceBusMailer\IAttachmentFinder.cs.pp" />
+    <Copy SourceFiles="$(ProjectDir)ISmtpBuilder.cs" DestinationFiles="$(SolutionDir)NuGetBuildCodeOnly\Content\App_Packages\NServiceBusMailer\ISmtpBuilder.cs.pp" />
+    <Copy SourceFiles="$(ProjectDir)Mail.cs" DestinationFiles="$(SolutionDir)NuGetBuildCodeOnly\Content\App_Packages\NServiceBusMailer\Mail.cs.pp" />
+    <Copy SourceFiles="$(ProjectDir)MailerConfigurationExtensions.cs" DestinationFiles="$(SolutionDir)NuGetBuildCodeOnly\Content\App_Packages\NServiceBusMailer\MailerConfigurationExtensions.cs.pp" />
+    <Copy SourceFiles="$(ProjectDir)MailerConfigurationSettings.cs" DestinationFiles="$(SolutionDir)NuGetBuildCodeOnly\Content\App_Packages\NServiceBusMailer\MailerConfigurationSettings.cs.pp" />
+    <Copy SourceFiles="$(ProjectDir)MailerFeature.cs" DestinationFiles="$(SolutionDir)NuGetBuildCodeOnly\Content\App_Packages\NServiceBusMailer\MailerFeature.cs.pp" />
+    <Copy SourceFiles="$(ProjectDir)MailMessage.cs" DestinationFiles="$(SolutionDir)NuGetBuildCodeOnly\Content\App_Packages\NServiceBusMailer\MailMessage.cs.pp" />
+    <Copy SourceFiles="$(ProjectDir)MailMessageDerializer.cs" DestinationFiles="$(SolutionDir)NuGetBuildCodeOnly\Content\App_Packages\NServiceBusMailer\MailMessageDerializer.cs.pp" />
+    <Copy SourceFiles="$(ProjectDir)MailSatellite.cs" DestinationFiles="$(SolutionDir)NuGetBuildCodeOnly\Content\App_Packages\NServiceBusMailer\MailSatellite.cs.pp" />
+    <Copy SourceFiles="$(ProjectDir)MailValidator.cs" DestinationFiles="$(SolutionDir)NuGetBuildCodeOnly\Content\App_Packages\NServiceBusMailer\MailValidator.cs.pp" />
+    <Copy SourceFiles="$(ProjectDir)MailSender.cs" DestinationFiles="$(SolutionDir)NuGetBuildCodeOnly\Content\App_Packages\NServiceBusMailer\MailSender.cs.pp" />
+    <Copy SourceFiles="$(ProjectDir)MessageConverter.cs" DestinationFiles="$(SolutionDir)NuGetBuildCodeOnly\Content\App_Packages\NServiceBusMailer\MessageConverter.cs.pp" />
+    <Copy SourceFiles="$(ProjectDir)RetryMessageBuilder.cs" DestinationFiles="$(SolutionDir)NuGetBuildCodeOnly\Content\App_Packages\NServiceBusMailer\RetryMessageBuilder.cs.pp" />
     <Copy SourceFiles="$(ProjectDir)\NServiceBus.Mailer-CodeOnly.nuspec" DestinationFolder="$(SolutionDir)NuGetBuildCodeOnly\" />
     <PepitaPackage.CreatePackageTask NuGetBuildDirectory="$(SolutionDir)NuGetBuildCodeOnly" MetadataAssembly="$(OutputPath)\NServiceBus.Mailer.dll" />
   </Target>
@@ -144,5 +148,7 @@
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\Fody.1.28.1\build\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Fody.1.28.1\build\Fody.targets'))" />
+    <Error Condition="!Exists('..\packages\PepitaPackage.1.21.4\build\PepitaPackage.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\PepitaPackage.1.21.4\build\PepitaPackage.targets'))" />
   </Target>
+  <Import Project="..\packages\PepitaPackage.1.21.4\build\PepitaPackage.targets" Condition="Exists('..\packages\PepitaPackage.1.21.4\build\PepitaPackage.targets')" />
 </Project>
