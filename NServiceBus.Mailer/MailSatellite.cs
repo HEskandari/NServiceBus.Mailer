@@ -8,7 +8,7 @@ namespace NServiceBus.Mailer
     class MailSatellite:ISatellite
     {
         public Address InputAddress { get; set; }
-        public bool Disabled { get { return false; } }
+        public bool Disabled => false;
         public string EndpointName;
         public ISmtpBuilder SmtpBuilder;
         public IMessageSerializer MessageSerializer;
