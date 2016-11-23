@@ -19,7 +19,11 @@
                     IsBodyHtml = true,
                     AlternateViews = new List<AlternateView>
                         {
-                            new AlternateView {Content = "AlternateView1", ContentType = "html/text"}
+                            new AlternateView
+                            {
+                                Content = "AlternateView1",
+                                ContentType = "html/text"
+                            }
                         },
                     Bcc = "bcc@b.com",
                     Cc = "cc@b.com",

@@ -1,11 +1,13 @@
 NServiceBus.Mailer
 ===============
 
+
 ## The nuget package  [![NuGet Status](http://img.shields.io/nuget/v/NServiceBus.Mailer.svg?style=flat)](https://www.nuget.org/packages/NServiceBus.Mailer/)
 
 https://nuget.org/packages/NServiceBus.Mailer/
 
     PM> Install-Package NServiceBus.Mailer
+
 
 ## Enabling
 
@@ -14,6 +16,8 @@ var configuration = new BusConfiguration();
 configuration.EndpointName("NServiceBusMailSample");
 var mailerSettings = configuration.EnableMailer();
 ```
+
+
 ## Usage 
 
 `MailSender` can be resolved from the container.
@@ -42,6 +46,7 @@ public class MyHandler : IHandleMessages<MyMessage>
 }
 ```
 
+
 ## SmtpClient construction 
 
 The interface `ISmtpBuilder` can be used to control how an [`SmtpClient`](http://msdn.microsoft.com/en-us/library/system.net.mail.smtpclient.aspx) is constructed.
@@ -56,6 +61,7 @@ By default the  `DefaultSmtpBuilder` will be used. This effectively uses the cod
 This results in the `SmtpClient` defaulting to reading its settings from the application config.
 
 To create a custom `ISmtpBuilder` take the following actions.
+
 
 ### Create a class inheriting from `ISmtpBuilder` 
 
@@ -74,7 +80,8 @@ To have your own custom `SmtpClient` simply inherit from `ISmtpBuilder`.
                 };
         }
     }
-    
+
+
 ### Inject `ISmtpBuilder` into the Container
 
 Then configure your builder.
@@ -83,7 +90,8 @@ Then configure your builder.
 var mailerSettings = configuration.EnableMailer();
 mailerSettings.UseSmtpBuilder<ToDirectorySmtpBuilder>();
 ```
-            
+
+
 ## Attachments
 
 Since it is not practical to send binary data as part of messages there is an alternative mechanism. The interface `IAttachmentFinder` can be used to defer attachment creation until the point of the email being sent.
@@ -107,6 +115,7 @@ Since it is not practical to send binary data as part of messages there is an al
         }
     }
 
+
 ### Inject `IAttachmentFinder` into the Container
 
 Then configure your attachment folder.
@@ -115,6 +124,7 @@ Then configure your attachment folder.
 var mailerSettings = configuration.EnableMailer();
 mailerSettings.UseAttachmentFinder<AttachmentFinder>();
 ```
+
 
 ### Pass an `AttachmentContext` when sending the email
 
@@ -130,9 +140,11 @@ Pass an `AttachmentContext` when calling `SendMail`. The `AttachmentContext` sho
         };
     bus.SendMail(mail);
 
+
 ## Error handling
 
-Retrying email is difficult due to the fact that when sending an email to multiple addresses a subset of those addresses may return an error. In this case resending to all addresses would result in some addresses receiving the email multiple times.
+Retrying email is difficult due to the fact that when sending an email to multiple addresses a subset of those addresses may return an error. In this case re-sending to all addresses would result in some addresses receiving the email multiple times.
+
 
 ### When all addresses fail
 
@@ -155,6 +167,7 @@ So the approach taken is to forward the original message to the failed recipient
     Sent: XXX
 
 While this is a little hacky it achieves the desired of letting the failed recipients receive the email contents while also notifying them that there is a conversation happening with other recipients. It also avoids spamming the other recipients.
+
 
 ## Icon
 

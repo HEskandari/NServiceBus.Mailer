@@ -4,7 +4,7 @@ using NServiceBus.Serialization;
 
 namespace NServiceBus.Mailer
 {
-    internal static class MailMessageDerializer
+    static class MailMessageDeserializer
     {
 
         public static MailMessage DeserializeMessage(this IMessageSerializer messageSerializer, TransportMessage message)

@@ -48,37 +48,27 @@ namespace NServiceBus.Mailer
 
         static string GetTextPrefix(MailMessage original, DateTime timesent)
         {
-            return string.Format(
-                @"
+            return $@"
 This message was forwarded due to the original email failing to send
 -----Original Message-----
-To: {0}
-CC: {1}
-Sent: {2}
+To: {string.Join(",", original.To)}
+CC: {string.Join(",", original.Cc)}
+Sent: {timesent:R}
 
-{3}
-",
-                string.Join(",", original.To),
-                string.Join(",", original.Cc),
-                timesent.ToString("R"),
-                original.Body);
+{original.Body}
+";
         }
 
         static string GetHtmlPrefix(MailMessage original, DateTime timesent)
         {
-            return string.Format(
-                @"
+            return $@"
 This message was forwarded due to the original email failing to send<br/>
 -----Original Message-----<br/>
-To: {0}<br/>
-CC: {1}<br/>
-Sent: {2}<br/><br/>
-{3}
-",
-                string.Join(",", original.To),
-                string.Join(",", original.Cc),
-                timesent.ToString("R"),
-                original.Body);
+To: {string.Join(",", original.To)}<br/>
+CC: {string.Join(",", original.Cc)}<br/>
+Sent: {timesent:R}<br/><br/>
+{original.Body}
+";
         }
     }
 }

@@ -9,7 +9,7 @@ using NServiceBus.Mailer;
     {
         public IEnumerable<Attachment> FindAttachments(Dictionary<string, string> attachmentContext)
         {
-            // Find the Attachments for the given context. 
+            // Find the Attachments for the given context.
             var id = attachmentContext["Id"];
             var memoryStream = new MemoryStream(Encoding.ASCII.GetBytes("Hello"));
             yield return new Attachment(memoryStream, "example.txt", "text/plain");

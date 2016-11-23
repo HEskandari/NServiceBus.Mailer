@@ -1,9 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample", "Sample\Sample.csproj", "{4E11828E-F4C3-4A04-81EF-99967E0F28A7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NServiceBus.Mailer", "NServiceBus.Mailer\NServiceBus.Mailer.csproj", "{9E81FDDA-66E8-48EE-9057-429EF8813DA1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{51BD4E10-7E1A-48AC-AB69-2F427BE777D0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -24,6 +28,12 @@ Global
 		{9E81FDDA-66E8-48EE-9057-429EF8813DA1}.Deployable|Any CPU.Build.0 = Deployable|Any CPU
 		{9E81FDDA-66E8-48EE-9057-429EF8813DA1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9E81FDDA-66E8-48EE-9057-429EF8813DA1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{51BD4E10-7E1A-48AC-AB69-2F427BE777D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{51BD4E10-7E1A-48AC-AB69-2F427BE777D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{51BD4E10-7E1A-48AC-AB69-2F427BE777D0}.Deployable|Any CPU.ActiveCfg = Debug|Any CPU
+		{51BD4E10-7E1A-48AC-AB69-2F427BE777D0}.Deployable|Any CPU.Build.0 = Debug|Any CPU
+		{51BD4E10-7E1A-48AC-AB69-2F427BE777D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{51BD4E10-7E1A-48AC-AB69-2F427BE777D0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
