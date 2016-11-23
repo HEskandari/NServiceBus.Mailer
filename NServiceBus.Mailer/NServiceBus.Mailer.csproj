@@ -62,9 +62,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="NServiceBus.Mailer-CodeOnly.nuspec">
-      <SubType>Designer</SubType>
-    </None>
     <None Include="NServiceBus.Mailer.nuspec">
       <SubType>Designer</SubType>
     </None>
@@ -98,7 +95,6 @@
   <Target Name="AfterBuild">
     <ItemGroup>
       <FilesToDelete Include="$(SolutionDir)NuGetBuild\**\*.*" />
-      <FilesToDelete Include="$(SolutionDir)NuGetBuildCodeOnly\**\*.*" />
     </ItemGroup>
     <Delete Files="@(FilesToDelete)" />
     <MakeDir Directories="$(SolutionDir)NuGetBuild" />
@@ -107,24 +103,6 @@
     <Copy SourceFiles="$(OutputPath)NServiceBus.Mailer.xml" DestinationFolder="$(SolutionDir)NuGetBuild\Lib\NET45" />
     <Copy SourceFiles="$(ProjectDir)NServiceBus.Mailer.nuspec" DestinationFolder="$(SolutionDir)NuGetBuild" />
     <PepitaPackage.CreatePackageTask NuGetBuildDirectory="$(SolutionDir)NuGetBuild" MetadataAssembly="$(OutputPath)NServiceBus.Mailer.dll" />
-    <Copy SourceFiles="$(ProjectDir)AddressList.cs" DestinationFiles="$(SolutionDir)NuGetBuildCodeOnly\Content\App_Packages\NServiceBusMailer\AddressList.cs.pp" />
-    <Copy SourceFiles="$(ProjectDir)AlternateView.cs" DestinationFiles="$(SolutionDir)NuGetBuildCodeOnly\Content\App_Packages\NServiceBusMailer\AlternateView.cs.pp" />
-    <Copy SourceFiles="$(ProjectDir)DefaultSmtpBuilder.cs" DestinationFiles="$(SolutionDir)NuGetBuildCodeOnly\Content\App_Packages\NServiceBusMailer\DefaultSmtpBuilder.cs.pp" />
-    <Copy SourceFiles="$(ProjectDir)IAttachmentFinder.cs" DestinationFiles="$(SolutionDir)NuGetBuildCodeOnly\Content\App_Packages\NServiceBusMailer\IAttachmentFinder.cs.pp" />
-    <Copy SourceFiles="$(ProjectDir)ISmtpBuilder.cs" DestinationFiles="$(SolutionDir)NuGetBuildCodeOnly\Content\App_Packages\NServiceBusMailer\ISmtpBuilder.cs.pp" />
-    <Copy SourceFiles="$(ProjectDir)Mail.cs" DestinationFiles="$(SolutionDir)NuGetBuildCodeOnly\Content\App_Packages\NServiceBusMailer\Mail.cs.pp" />
-    <Copy SourceFiles="$(ProjectDir)MailerConfigurationExtensions.cs" DestinationFiles="$(SolutionDir)NuGetBuildCodeOnly\Content\App_Packages\NServiceBusMailer\MailerConfigurationExtensions.cs.pp" />
-    <Copy SourceFiles="$(ProjectDir)MailerConfigurationSettings.cs" DestinationFiles="$(SolutionDir)NuGetBuildCodeOnly\Content\App_Packages\NServiceBusMailer\MailerConfigurationSettings.cs.pp" />
-    <Copy SourceFiles="$(ProjectDir)MailerFeature.cs" DestinationFiles="$(SolutionDir)NuGetBuildCodeOnly\Content\App_Packages\NServiceBusMailer\MailerFeature.cs.pp" />
-    <Copy SourceFiles="$(ProjectDir)MailMessage.cs" DestinationFiles="$(SolutionDir)NuGetBuildCodeOnly\Content\App_Packages\NServiceBusMailer\MailMessage.cs.pp" />
-    <Copy SourceFiles="$(ProjectDir)MailMessageDerializer.cs" DestinationFiles="$(SolutionDir)NuGetBuildCodeOnly\Content\App_Packages\NServiceBusMailer\MailMessageDerializer.cs.pp" />
-    <Copy SourceFiles="$(ProjectDir)MailSatellite.cs" DestinationFiles="$(SolutionDir)NuGetBuildCodeOnly\Content\App_Packages\NServiceBusMailer\MailSatellite.cs.pp" />
-    <Copy SourceFiles="$(ProjectDir)MailValidator.cs" DestinationFiles="$(SolutionDir)NuGetBuildCodeOnly\Content\App_Packages\NServiceBusMailer\MailValidator.cs.pp" />
-    <Copy SourceFiles="$(ProjectDir)MailSender.cs" DestinationFiles="$(SolutionDir)NuGetBuildCodeOnly\Content\App_Packages\NServiceBusMailer\MailSender.cs.pp" />
-    <Copy SourceFiles="$(ProjectDir)MessageConverter.cs" DestinationFiles="$(SolutionDir)NuGetBuildCodeOnly\Content\App_Packages\NServiceBusMailer\MessageConverter.cs.pp" />
-    <Copy SourceFiles="$(ProjectDir)RetryMessageBuilder.cs" DestinationFiles="$(SolutionDir)NuGetBuildCodeOnly\Content\App_Packages\NServiceBusMailer\RetryMessageBuilder.cs.pp" />
-    <Copy SourceFiles="$(ProjectDir)\NServiceBus.Mailer-CodeOnly.nuspec" DestinationFolder="$(SolutionDir)NuGetBuildCodeOnly\" />
-    <PepitaPackage.CreatePackageTask NuGetBuildDirectory="$(SolutionDir)NuGetBuildCodeOnly" MetadataAssembly="$(OutputPath)\NServiceBus.Mailer.dll" />
   </Target>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
