@@ -1,23 +1,29 @@
 ﻿using System;
+using System.IO;
 using System.Net.Mail;
-using NServiceBus.Satellites;
+using System.Threading.Tasks;
+using NServiceBus.Extensibility;
+using NServiceBus.MessageInterfaces;
+using NServiceBus.Routing;
 using NServiceBus.Serialization;
+using NServiceBus.Settings;
+using NServiceBus.Transport;
 
 namespace NServiceBus.Mailer
 {
-    class MailSatellite:ISatellite
+    class MailSatellite
     {
-        public Address InputAddress { get; set; }
-        public bool Disabled => false;
-        public string EndpointName;
         public ISmtpBuilder SmtpBuilder;
-        public IMessageSerializer MessageSerializer;
+        public IMessageMapper MessageMapper;
         public IAttachmentFinder AttachmentFinder;
-        public IBus Bus;
+        public ReadOnlySettings Settings;
+        public IDispatchMessages DispatchMessages;
 
-        public bool Handle(TransportMessage transportMessage)
+        public async Task OnMessageReceived(MessageContext messageContext)
         {
-            var sendEmail = MessageSerializer.DeserializeMessage(transportMessage);
+            var serializer = GetDefaultSerializer();
+            var sendEmail = serializer.DeserializeMessage(messageContext);
+
             using (var smtpClient = SmtpBuilder.BuildClient())
             using (var mailMessage = sendEmail.ToMailMessage())
             {
@@ -36,20 +42,38 @@ namespace NServiceBus.Mailer
                         //All messages failed. So safe to throw and cause a re-handle of the message
                         throw;
                     }
-                    var timeSent = TimeSent(transportMessage);
+                    var timeSent = TimeSent(messageContext);
 
-                    foreach (var newMessage in RetryMessageBuilder.GetMessagesToRetry(sendEmail,timeSent, ex))
+                    foreach (var newMessage in RetryMessageBuilder.GetMessagesToRetry(sendEmail, timeSent, ex))
                     {
-                        Bus.Send(InputAddress, newMessage);
+                        await DispatchMailMessage(messageContext, newMessage);
                     }
                 }
             }
-            return true;
         }
 
-        static DateTime TimeSent(TransportMessage message)
+        private async Task DispatchMailMessage(MessageContext messageContext, MailMessage newMessage)
         {
-            return DateTimeExtensions.ToUtcDateTime(message.Headers[Headers.TimeSent]);
+            var msg = Serialize(newMessage);
+            var operation =
+                new TransportOperations(
+                    new TransportOperation(new OutgoingMessage(messageContext.MessageId, messageContext.Headers, msg),
+                        new UnicastAddressTag("Mail")));
+            await DispatchMessages.Dispatch(operation, new TransportTransaction(), new ContextBag());
+        }
+
+        IMessageSerializer GetDefaultSerializer()
+        {
+            var mainSerializer = Settings.Get<Tuple<SerializationDefinition, SettingsHolder>>("MainSerializer");
+            var serializerFactory = mainSerializer.Item1.Configure(Settings);
+            var serializer = serializerFactory(MessageMapper);
+
+            return serializer;
+        }
+
+        static DateTime TimeSent(MessageContext context)
+        {
+            return DateTimeExtensions.ToUtcDateTime(context.Headers[Headers.TimeSent]);
         }
 
         void CleanAttachments(MailMessage sendEmail)
@@ -81,13 +105,15 @@ namespace NServiceBus.Mailer
             }
         }
 
-        public void Start()
+        byte[] Serialize(MailMessage message)
         {
-        }
+            var serializer = GetDefaultSerializer();
 
-        public void Stop()
-        {
+            using (var memoryStream = new MemoryStream())
+            {
+                serializer.Serialize(message, memoryStream);
+                return memoryStream.ToArray();
+            }
         }
-
     }
 }

@@ -1,4 +1,8 @@
-﻿using NServiceBus.Features;
+﻿using System.Threading.Tasks;
+using NServiceBus.Features;
+using NServiceBus.ObjectBuilder;
+using NServiceBus.Serialization;
+using NServiceBus.Transport;
 
 namespace NServiceBus.Mailer
 {
@@ -11,8 +15,7 @@ namespace NServiceBus.Mailer
 
         protected override void Setup(FeatureConfigurationContext context)
         {
-            var localAddress = context.Settings.LocalAddress();
-            var inputAddress = localAddress.SubScope("Mail");
+            var inputAddress = "Mail";
 
             if (!context.Container.HasComponent<ISmtpBuilder>())
             {
@@ -21,12 +24,22 @@ namespace NServiceBus.Mailer
                     .ConfigureComponent<DefaultSmtpBuilder>(DependencyLifecycle.SingleInstance);
             }
 
-            context.Container.ConfigureComponent<MailSatellite>(DependencyLifecycle.SingleInstance)
-                .ConfigureProperty(t => t.InputAddress, inputAddress)
-                .ConfigureProperty(t => t.EndpointName, context.Settings.EndpointName());
+            context.Container.ConfigureComponent<MailSender>(DependencyLifecycle.SingleInstance);
+            context.Container.ConfigureComponent<MailSatellite>(DependencyLifecycle.SingleInstance);
 
-            context.Container.ConfigureComponent<MailSender>(DependencyLifecycle.SingleInstance)
-                .ConfigureProperty(t => t.InputAddress, inputAddress);
+            context.AddSatelliteReceiver(
+                name: "MailSatelite",
+                transportAddress: inputAddress,
+                runtimeSettings: PushRuntimeSettings.Default,
+                recoverabilityPolicy: (config, errorContext) => RecoverabilityAction.MoveToError(config.Failed.ErrorQueue),
+                onMessage: OnMessageReceived);
+
+        }
+
+        private Task OnMessageReceived(IBuilder builder, MessageContext context)
+        {
+            var mailSatelite = builder.Build<MailSatellite>();
+            return mailSatelite.OnMessageReceived(context);
         }
     }
 }
