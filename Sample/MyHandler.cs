@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using NServiceBus;
 using NServiceBus.Logging;
 using NServiceBus.Mailer;
@@ -13,7 +14,7 @@ public class MyHandler : IHandleMessages<MyMessage>
         this.mailSender = mailSender;
     }
 
-    public void Handle(MyMessage message)
+    public async Task Handle(MyMessage message, IMessageHandlerContext context)
     {
         var mail = new Mail
                    {
@@ -23,7 +24,7 @@ public class MyHandler : IHandleMessages<MyMessage>
                        Subject = "Hello",
                        AttachmentContext = new Dictionary<string, string> { { "Id", "fakeEmail" } }
                    };
-        mailSender.SendMail(mail);
-        log.Info("Mail sent and written to " +ToDirectorySmtpBuilder.DirectoryLocation);
+        await mailSender.SendMail(mail, context);
+        log.Info("Mail sent and written to " + ToDirectorySmtpBuilder.DirectoryLocation);
     }
 }

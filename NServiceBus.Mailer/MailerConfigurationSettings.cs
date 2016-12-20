@@ -5,9 +5,9 @@
     /// </summary>
     public class MailerConfigurationSettings
     {
-        BusConfiguration config;
+        EndpointConfiguration config;
 
-        internal MailerConfigurationSettings(BusConfiguration config)
+        internal MailerConfigurationSettings(EndpointConfiguration config)
         {
             this.config = config;
         }

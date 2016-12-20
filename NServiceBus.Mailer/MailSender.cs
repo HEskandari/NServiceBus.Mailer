@@ -1,21 +1,24 @@
+using System.Threading.Tasks;
+
 namespace NServiceBus.Mailer
 {
     /// <summary>
-    /// Helper class for sending emails through an <see cref="IBus"/>.
+    /// Helper class for sending emails through an <see cref="IMessageHandlerContext"/>.
     /// </summary>
     public class MailSender
     {
-        public IBus Bus { get; set; }
-        public Address InputAddress { get; set; }
-
         /// <summary>
-        /// Sends the specified <see cref="NServiceBus.Mailer.Mail"/> via the <see cref="IBus"/> to an SMTP server for delivery.
+        /// Sends the specified <see cref="NServiceBus.Mailer.Mail"/> via the <see cref="IMessageHandlerContext"/> to an SMTP server for delivery.
         /// </summary>
         /// <param name="mail">The <see cref="NServiceBus.Mailer.Mail"/> to send.</param>
-        public void SendMail(Mail mail)
+        /// <param name="context"></param>
+        public Task SendMail(Mail mail, IMessageHandlerContext context)
         {
             mail.ValidateMail();
-            Bus.Send(InputAddress, mail.ToMailMessage());
+
+            context.Send("Mail", mail.ToMailMessage());
+
+            return Task.CompletedTask;
         }
     }
 }
