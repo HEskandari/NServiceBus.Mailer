@@ -2,6 +2,7 @@
 using System.IO;
 using System.Net.Mail;
 using System.Text;
+using System.Threading.Tasks;
 using NServiceBus.Mailer;
 // ReSharper disable UnusedVariable
 
@@ -16,8 +17,9 @@ public class AttachmentFinder : IAttachmentFinder
         yield return new Attachment(memoryStream, "example.txt", "text/plain");
     }
 
-    public void CleanAttachments(Dictionary<string, string> attachmentContext)
+    public Task CleanAttachments(Dictionary<string, string> attachmentContext)
     {
         // Attachment cleanup can be performed here
+        return Task.FromResult(0);
     }
 }

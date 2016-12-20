@@ -31,7 +31,8 @@ namespace NServiceBus.Mailer
                 try
                 {
                     smtpClient.Send(mailMessage);
-                    CleanAttachments(sendEmail);
+                    await CleanAttachments(sendEmail)
+                        .ConfigureAwait(false);
                 }
                 catch (SmtpFailedRecipientsException ex)
                 {
@@ -46,13 +47,14 @@ namespace NServiceBus.Mailer
 
                     foreach (var newMessage in RetryMessageBuilder.GetMessagesToRetry(sendEmail, timeSent, ex))
                     {
-                        await DispatchMailMessage(messageContext, newMessage);
+                        await DispatchMailMessage(messageContext, newMessage)
+                            .ConfigureAwait(false);
                     }
                 }
             }
         }
 
-         Task DispatchMailMessage(MessageContext messageContext, MailMessage newMessage)
+        Task DispatchMailMessage(MessageContext messageContext, MailMessage newMessage)
         {
             var msg = Serialize(newMessage);
             var operation =
@@ -66,9 +68,7 @@ namespace NServiceBus.Mailer
         {
             var mainSerializer = Settings.Get<Tuple<SerializationDefinition, SettingsHolder>>("MainSerializer");
             var serializerFactory = mainSerializer.Item1.Configure(Settings);
-            var serializer = serializerFactory(MessageMapper);
-
-            return serializer;
+            return serializerFactory(MessageMapper);
         }
 
         static DateTime TimeSent(MessageContext context)
@@ -76,17 +76,13 @@ namespace NServiceBus.Mailer
             return DateTimeExtensions.ToUtcDateTime(context.Headers[Headers.TimeSent]);
         }
 
-        void CleanAttachments(MailMessage sendEmail)
+        Task CleanAttachments(MailMessage sendEmail)
         {
-            if (AttachmentFinder == null)
+            if (AttachmentFinder == null || sendEmail.AttachmentContext == null)
             {
-                return;
+                return Task.FromResult(0);
             }
-            if (sendEmail.AttachmentContext == null)
-            {
-                return;
-            }
-            AttachmentFinder.CleanAttachments(sendEmail.AttachmentContext);
+            return AttachmentFinder.CleanAttachments(sendEmail.AttachmentContext);
         }
 
         void AddAttachments(MailMessage sendEmail, System.Net.Mail.MailMessage mailMessage)

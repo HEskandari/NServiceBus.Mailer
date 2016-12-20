@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Net.Mail;
+using System.Threading.Tasks;
 
 namespace NServiceBus.Mailer
 {
@@ -18,6 +19,6 @@ namespace NServiceBus.Mailer
         /// Clean up the attachments for a given context
         /// </summary>
         /// <param name="attachmentContext">the same <see cref="Dictionary{TKey,TValue}"/> you passed in on <see cref="Mail.AttachmentContext"/> when calling <see cref="MailSender.SendMail"/></param>.
-        void CleanAttachments(Dictionary<string, string> attachmentContext);
+        Task CleanAttachments(Dictionary<string, string> attachmentContext);
     }
 }
