@@ -1,7 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Net.Mail;
+using System.Text;
 using System.Threading.Tasks;
 using NServiceBus;
 using NServiceBus.Mailer;
+// ReSharper disable ConvertToLambdaExpression
+// ReSharper disable UnusedVariable
 
 class Program
 {
@@ -20,8 +26,29 @@ class Program
         endpointConfiguration.SendFailedMessagesTo("error");
 
         var mailerSettings = endpointConfiguration.EnableMailer();
-        mailerSettings.UseSmtpBuilder<ToDirectorySmtpBuilder>();
-        mailerSettings.UseAttachmentFinder<AttachmentFinder>();
+        mailerSettings.UseSmtpBuilder(() =>
+        {
+            Directory.CreateDirectory(DirectoryLocation);
+            return new SmtpClient
+            {
+                DeliveryMethod = SmtpDeliveryMethod.SpecifiedPickupDirectory,
+                PickupDirectoryLocation = DirectoryLocation
+            };
+        });
+        mailerSettings.UseAttachmentFinder(
+            findAttachments: attachmentContext =>
+            {
+                var id = attachmentContext["Id"];
+                var memoryStream = new MemoryStream(Encoding.ASCII.GetBytes("Hello"));
+                var attachment = new Attachment(memoryStream, "example.txt", "text/plain");
+                var attachments = new List<Attachment> {attachment};
+                return Task.FromResult<IEnumerable<Attachment>>(attachments);
+            },
+            cleanAttachments: attachmentContext =>
+            {
+                // Attachment cleanup can be performed here
+                return Task.FromResult(0);
+            });
 
         var endpointInstance = await Endpoint.Start(endpointConfiguration)
             .ConfigureAwait(false);
@@ -53,4 +80,6 @@ class Program
                 .ConfigureAwait(false);
         }
     }
+
+    public static readonly string DirectoryLocation = Path.Combine(Environment.CurrentDirectory, "Emails");
 }

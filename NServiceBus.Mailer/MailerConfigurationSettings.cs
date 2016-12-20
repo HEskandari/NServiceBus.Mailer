@@ -1,4 +1,10 @@
-﻿namespace NServiceBus.Mailer
+﻿using System;
+using System.Collections.Generic;
+using System.Net.Mail;
+using System.Threading.Tasks;
+using NServiceBus.Configuration.AdvanceExtensibility;
+
+namespace NServiceBus.Mailer
 {
     /// <summary>
     /// Configuration settings for Mailer.
@@ -13,35 +19,27 @@
         }
 
         /// <summary>
-        /// Register a custom <see cref="IAttachmentFinder"/>.
+        /// Register attachment discovery and cleanup.
         /// </summary>
-        public void UseAttachmentFinder<T>() where T : IAttachmentFinder
+        public void UseAttachmentFinder(
+            Func<IReadOnlyDictionary<string, string>, Task<IEnumerable<Attachment>>> findAttachments,
+            Func<IReadOnlyDictionary<string, string>, Task> cleanAttachments
+            )
         {
-            config.RegisterComponents(x => x.ConfigureComponent<T>(DependencyLifecycle.SingleInstance));
+            var settings = config.GetSettings();
+            settings.Set("NServiceBus.Mailer.FindAttachments", findAttachments);
+            settings.Set("NServiceBus.Mailer.CleanAttachments", cleanAttachments);
         }
 
         /// <summary>
-        /// Register a custom <see cref="IAttachmentFinder"/>.
+        /// Register a custom SmtpClient builder.
         /// </summary>
-        public void UseAttachmentFinder<T>(T instance) where T : IAttachmentFinder
+        public void UseSmtpBuilder(Func<SmtpClient> buildSmtpClient)
         {
-            config.RegisterComponents(x => x.RegisterSingleton(instance));
+            var settings = config.GetSettings();
+            settings.Set("NServiceBus.Mailer.BuildSmtpClient", buildSmtpClient);
         }
 
-        /// <summary>
-        /// Register a custom <see cref="ISmtpBuilder"/>.
-        /// </summary>
-        public void UseSmtpBuilder<T>() where T : ISmtpBuilder
-        {
-            config.RegisterComponents(x => x.ConfigureComponent<T>(DependencyLifecycle.SingleInstance));
-        }
 
-        /// <summary>
-        /// Register a custom <see cref="ISmtpBuilder"/>.
-        /// </summary>
-        public void UseSmtpBuilder<T>(T instance) where T : ISmtpBuilder
-        {
-            config.RegisterComponents(x => x.RegisterSingleton(instance));
-        }
     }
 }

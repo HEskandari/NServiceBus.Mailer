@@ -1,31 +1,42 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Mail;
 using System.Threading.Tasks;
 using NServiceBus.Extensibility;
-using NServiceBus.MessageInterfaces;
+using NServiceBus.ObjectBuilder;
 using NServiceBus.Routing;
 using NServiceBus.Serialization;
-using NServiceBus.Settings;
 using NServiceBus.Transport;
 
 namespace NServiceBus.Mailer
 {
     class MailSatellite
     {
-        public ISmtpBuilder SmtpBuilder;
-        public IMessageMapper MessageMapper;
-        public IAttachmentFinder AttachmentFinder;
-        public ReadOnlySettings Settings;
-        public IDispatchMessages DispatchMessages;
+        Func<IReadOnlyDictionary<string, string>, Task<IEnumerable<Attachment>>> findAttachments;
+        Func<IReadOnlyDictionary<string, string>, Task> cleanAttachments;
+        Func<SmtpClient> buildSmtpClient;
+        IMessageSerializer serializer;
+        IDispatchMessages dispatchMessages;
 
-        public async Task OnMessageReceived(MessageContext messageContext)
+        public MailSatellite(Func<IReadOnlyDictionary<string, string>, Task<IEnumerable<Attachment>>> findAttachments, Func<IReadOnlyDictionary<string, string>, Task> cleanAttachments, Func<SmtpClient> buildSmtpClient, IMessageSerializer serializer)
         {
-            var serializer = GetDefaultSerializer();
+            this.findAttachments = findAttachments;
+            this.cleanAttachments = cleanAttachments;
+            this.buildSmtpClient = buildSmtpClient;
+            this.serializer = serializer;
+        }
+
+        public async Task OnMessageReceived(IBuilder builder, MessageContext messageContext)
+        {
+            if (dispatchMessages == null)
+            {
+                dispatchMessages = builder.Build<IDispatchMessages>();
+            }
             var sendEmail = serializer.DeserializeMessage(messageContext);
 
-            using (var smtpClient = SmtpBuilder.BuildClient())
+            using (var smtpClient = buildSmtpClient())
             using (var mailMessage = sendEmail.ToMailMessage())
             {
                 await AddAttachments(sendEmail, mailMessage);
@@ -56,19 +67,12 @@ namespace NServiceBus.Mailer
 
         Task DispatchMailMessage(MessageContext messageContext, MailMessage newMessage)
         {
-            var msg = Serialize(newMessage);
-            var operation =
-                new TransportOperations(
-                    new TransportOperation(new OutgoingMessage(messageContext.MessageId, messageContext.Headers, msg),
-                        new UnicastAddressTag("Mail")));
-            return DispatchMessages.Dispatch(operation, new TransportTransaction(), new ContextBag());
-        }
-
-        IMessageSerializer GetDefaultSerializer()
-        {
-            var mainSerializer = Settings.Get<Tuple<SerializationDefinition, SettingsHolder>>("MainSerializer");
-            var serializerFactory = mainSerializer.Item1.Configure(Settings);
-            return serializerFactory(MessageMapper);
+            var serializedMessage = Serialize(newMessage);
+            var operation = new TransportOperations(
+                    new TransportOperation(
+                        message: new OutgoingMessage(messageContext.MessageId, messageContext.Headers, serializedMessage),
+                        addressTag: new UnicastAddressTag("Mail")));
+            return dispatchMessages.Dispatch(operation, new TransportTransaction(), new ContextBag());
         }
 
         static DateTime TimeSent(MessageContext context)
@@ -78,16 +82,16 @@ namespace NServiceBus.Mailer
 
         Task CleanAttachments(MailMessage sendEmail)
         {
-            if (AttachmentFinder == null || sendEmail.AttachmentContext == null)
+            if (cleanAttachments == null || sendEmail.AttachmentContext == null)
             {
                 return Task.FromResult(0);
             }
-            return AttachmentFinder.CleanAttachments(sendEmail.AttachmentContext);
+            return cleanAttachments(sendEmail.AttachmentContext);
         }
 
         async Task AddAttachments(MailMessage sendEmail, System.Net.Mail.MailMessage mailMessage)
         {
-            if (AttachmentFinder == null)
+            if (findAttachments == null)
             {
                 return;
             }
@@ -95,7 +99,7 @@ namespace NServiceBus.Mailer
             {
                 return;
             }
-            foreach (var attachment in await AttachmentFinder.FindAttachments(sendEmail.AttachmentContext).ConfigureAwait(false))
+            foreach (var attachment in await findAttachments(sendEmail.AttachmentContext).ConfigureAwait(false))
             {
                 mailMessage.Attachments.Add(attachment);
             }
@@ -103,8 +107,6 @@ namespace NServiceBus.Mailer
 
         byte[] Serialize(MailMessage message)
         {
-            var serializer = GetDefaultSerializer();
-
             using (var memoryStream = new MemoryStream())
             {
                 serializer.Serialize(message, memoryStream);

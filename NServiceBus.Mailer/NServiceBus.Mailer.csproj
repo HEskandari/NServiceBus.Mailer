@@ -67,9 +67,6 @@
     <Compile Include="MailSender.cs" />
     <Compile Include="MailValidator.cs" />
     <Compile Include="MessageConverter.cs" />
-    <Compile Include="DefaultSmtpBuilder.cs" />
-    <Compile Include="IAttachmentFinder.cs" />
-    <Compile Include="ISmtpBuilder.cs" />
     <Compile Include="MailerConfigurationExtensions.cs" />
     <Compile Include="MailerConfigurationSettings.cs" />
     <Compile Include="MailerFeature.cs" />

@@ -44,11 +44,9 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AttachmentFinder.cs" />
     <Compile Include="MyHandler.cs" />
     <Compile Include="MyMessage.cs" />
     <Compile Include="Program.cs" />
-    <Compile Include="ToDirectorySmtpBuilder.cs" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

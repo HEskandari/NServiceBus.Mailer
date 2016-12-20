@@ -52,7 +52,7 @@
         public Dictionary<string, string> Headers = new Dictionary<string, string>();
 
         /// <summary>
-        /// The (optional) context of the message that can be used by <see cref="IAttachmentFinder"/> to retrieve attachments.
+        /// The (optional) context of the message that can be used by <see cref="MailerConfigurationSettings.UseAttachmentFinder"/> to retrieve attachments.
         /// </summary> 
         public Dictionary<string, string> AttachmentContext = new Dictionary<string, string>();
 

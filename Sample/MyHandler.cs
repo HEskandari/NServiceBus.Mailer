@@ -22,6 +22,6 @@ public class MyHandler : IHandleMessages<MyMessage>
             }
         };
         await context.SendMail(mail);
-        log.Info($"Mail sent and written to {ToDirectorySmtpBuilder.DirectoryLocation}");
+        log.Info($"Mail sent and written to {Program.DirectoryLocation}");
     }
 }
