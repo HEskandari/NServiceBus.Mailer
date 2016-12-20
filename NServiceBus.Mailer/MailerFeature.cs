@@ -23,7 +23,6 @@ namespace NServiceBus.Mailer
                     .ConfigureComponent<DefaultSmtpBuilder>(DependencyLifecycle.SingleInstance);
             }
 
-            context.Container.ConfigureComponent<MailSender>(DependencyLifecycle.SingleInstance);
             context.Container.ConfigureComponent<MailSatellite>(DependencyLifecycle.SingleInstance);
 
             context.AddSatelliteReceiver(

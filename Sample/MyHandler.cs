@@ -7,12 +7,6 @@ using NServiceBus.Mailer;
 public class MyHandler : IHandleMessages<MyMessage>
 {
     static ILog log = LogManager.GetLogger<MyHandler>();
-    MailSender mailSender;
-
-    public MyHandler(MailSender mailSender)
-    {
-        this.mailSender = mailSender;
-    }
 
     public async Task Handle(MyMessage message, IMessageHandlerContext context)
     {
@@ -27,7 +21,7 @@ public class MyHandler : IHandleMessages<MyMessage>
                 {"Id", "fakeEmail"}
             }
         };
-        await mailSender.SendMail(mail, context);
+        await context.SendMail(mail);
         log.Info($"Mail sent and written to {ToDirectorySmtpBuilder.DirectoryLocation}");
     }
 }
