@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Net.Mail;
 using System.Threading.Tasks;
 using NServiceBus.Extensibility;
@@ -27,29 +28,28 @@ namespace NServiceBus.Mailer
             using (var smtpClient = SmtpBuilder.BuildClient())
             using (var mailMessage = sendEmail.ToMailMessage())
             {
-                AddAttachments(sendEmail, mailMessage);
+                await AddAttachments(sendEmail, mailMessage);
                 try
                 {
-                    smtpClient.Send(mailMessage);
+                    await smtpClient.SendMailAsync(mailMessage)
+                        .ConfigureAwait(false);
                     await CleanAttachments(sendEmail)
                         .ConfigureAwait(false);
                 }
-                catch (SmtpFailedRecipientsException ex)
+                catch (SmtpFailedRecipientsException exception)
                 {
                     //TODO: should put some delay in here to back off from an overloaded smtp server
                     var originalRecipientCount = mailMessage.To.Count + mailMessage.Bcc.Count + mailMessage.CC.Count;
-                    if (ex.InnerExceptions.Length == originalRecipientCount)
+                    if (exception.InnerExceptions.Length == originalRecipientCount)
                     {
                         //All messages failed. So safe to throw and cause a re-handle of the message
                         throw;
                     }
                     var timeSent = TimeSent(messageContext);
 
-                    foreach (var newMessage in RetryMessageBuilder.GetMessagesToRetry(sendEmail, timeSent, ex))
-                    {
-                        await DispatchMailMessage(messageContext, newMessage)
-                            .ConfigureAwait(false);
-                    }
+                    var retries = RetryMessageBuilder.GetMessagesToRetry(sendEmail, timeSent, exception)
+                        .Select(newMessage => DispatchMailMessage(messageContext, newMessage));
+                    await Task.WhenAll(retries);
                 }
             }
         }
@@ -85,7 +85,7 @@ namespace NServiceBus.Mailer
             return AttachmentFinder.CleanAttachments(sendEmail.AttachmentContext);
         }
 
-        void AddAttachments(MailMessage sendEmail, System.Net.Mail.MailMessage mailMessage)
+        async Task AddAttachments(MailMessage sendEmail, System.Net.Mail.MailMessage mailMessage)
         {
             if (AttachmentFinder == null)
             {
@@ -95,7 +95,7 @@ namespace NServiceBus.Mailer
             {
                 return;
             }
-            foreach (var attachment in AttachmentFinder.FindAttachments(sendEmail.AttachmentContext))
+            foreach (var attachment in await AttachmentFinder.FindAttachments(sendEmail.AttachmentContext).ConfigureAwait(false))
             {
                 mailMessage.Attachments.Add(attachment);
             }

@@ -9,9 +9,14 @@ using NServiceBus.Mailer;
 // attachmentContext will be the same dictionary you passed in on Mail.AttachmentContext when calling SendMail.
 public class AttachmentFinder : IAttachmentFinder
 {
-    public IEnumerable<Attachment> FindAttachments(Dictionary<string, string> attachmentContext)
+    public Task<IEnumerable<Attachment>> FindAttachments(Dictionary<string, string> attachmentContext)
     {
         // Find the Attachments for the given context.
+        return Task.FromResult(EnumerateAttachment(attachmentContext));
+    }
+
+    static IEnumerable<Attachment> EnumerateAttachment(Dictionary<string, string> attachmentContext)
+    {
         var id = attachmentContext["Id"];
         var memoryStream = new MemoryStream(Encoding.ASCII.GetBytes("Hello"));
         yield return new Attachment(memoryStream, "example.txt", "text/plain");

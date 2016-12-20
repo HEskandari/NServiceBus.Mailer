@@ -49,7 +49,6 @@
     <Compile Include="MyMessage.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="ToDirectorySmtpBuilder.cs" />
-    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

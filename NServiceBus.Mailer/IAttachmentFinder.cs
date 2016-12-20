@@ -13,7 +13,7 @@ namespace NServiceBus.Mailer
         /// Find the <see cref="Attachment"/>s for the given context.
         /// </summary>
         /// <param name="attachmentContext">the same <see cref="Dictionary{TKey,TValue}"/> you passed in on <see cref="Mail.AttachmentContext"/> when calling <see cref="MailSender.SendMail"/></param>.
-        IEnumerable<Attachment> FindAttachments(Dictionary<string, string> attachmentContext);
+        Task <IEnumerable<Attachment>> FindAttachments(Dictionary<string, string> attachmentContext);
 
         /// <summary>
         /// Clean up the attachments for a given context
