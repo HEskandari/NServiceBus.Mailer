@@ -15,10 +15,7 @@ namespace NServiceBus.Mailer
         public Task SendMail(Mail mail, IMessageHandlerContext context)
         {
             mail.ValidateMail();
-
-            context.Send("Mail", mail.ToMailMessage());
-
-            return Task.CompletedTask;
+            return context.Send("Mail", mail.ToMailMessage());
         }
     }
 }

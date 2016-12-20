@@ -13,10 +13,8 @@
     <description>An email sender for NServiceBus.</description>
     <language>en-AU</language>
     <tags>NServiceBus, EMail, NServiceBus.Mailer</tags>
-	  <dependencies>
-		  <group targetFramework=".NETFramework4.5">
-			  <dependency id="NServiceBus" version="5.0" />
-		  </group>
-	  </dependencies>
+    <dependencies>
+      <dependency id="NServiceBus" version="[6.0.0, 7.0.0)" />
+    </dependencies>
   </metadata>
 </package>

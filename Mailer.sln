@@ -12,26 +12,19 @@ EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
-		Deployable|Any CPU = Deployable|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{4E11828E-F4C3-4A04-81EF-99967E0F28A7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4E11828E-F4C3-4A04-81EF-99967E0F28A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4E11828E-F4C3-4A04-81EF-99967E0F28A7}.Deployable|Any CPU.ActiveCfg = Deployable|Any CPU
-		{4E11828E-F4C3-4A04-81EF-99967E0F28A7}.Deployable|Any CPU.Build.0 = Deployable|Any CPU
 		{4E11828E-F4C3-4A04-81EF-99967E0F28A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4E11828E-F4C3-4A04-81EF-99967E0F28A7}.Release|Any CPU.Build.0 = Release|Any CPU
 		{9E81FDDA-66E8-48EE-9057-429EF8813DA1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{9E81FDDA-66E8-48EE-9057-429EF8813DA1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9E81FDDA-66E8-48EE-9057-429EF8813DA1}.Deployable|Any CPU.ActiveCfg = Deployable|Any CPU
-		{9E81FDDA-66E8-48EE-9057-429EF8813DA1}.Deployable|Any CPU.Build.0 = Deployable|Any CPU
 		{9E81FDDA-66E8-48EE-9057-429EF8813DA1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9E81FDDA-66E8-48EE-9057-429EF8813DA1}.Release|Any CPU.Build.0 = Release|Any CPU
 		{51BD4E10-7E1A-48AC-AB69-2F427BE777D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{51BD4E10-7E1A-48AC-AB69-2F427BE777D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{51BD4E10-7E1A-48AC-AB69-2F427BE777D0}.Deployable|Any CPU.ActiveCfg = Debug|Any CPU
-		{51BD4E10-7E1A-48AC-AB69-2F427BE777D0}.Deployable|Any CPU.Build.0 = Debug|Any CPU
 		{51BD4E10-7E1A-48AC-AB69-2F427BE777D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{51BD4E10-7E1A-48AC-AB69-2F427BE777D0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
