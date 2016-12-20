@@ -13,9 +13,9 @@ namespace NServiceBus.Mailer
         public SmtpClient BuildClient()
         {
             return new SmtpClient
-                   {
-                       EnableSsl = true
-                   };
+            {
+                EnableSsl = true
+            };
         }
     }
 }

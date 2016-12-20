@@ -52,14 +52,14 @@ namespace NServiceBus.Mailer
             }
         }
 
-        private async Task DispatchMailMessage(MessageContext messageContext, MailMessage newMessage)
+         Task DispatchMailMessage(MessageContext messageContext, MailMessage newMessage)
         {
             var msg = Serialize(newMessage);
             var operation =
                 new TransportOperations(
                     new TransportOperation(new OutgoingMessage(messageContext.MessageId, messageContext.Headers, msg),
                         new UnicastAddressTag("Mail")));
-            await DispatchMessages.Dispatch(operation, new TransportTransaction(), new ContextBag());
+            return DispatchMessages.Dispatch(operation, new TransportTransaction(), new ContextBag());
         }
 
         IMessageSerializer GetDefaultSerializer()

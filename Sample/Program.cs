@@ -12,17 +12,19 @@ class Program
 
     static async Task AsyncMain()
     {
-        var configuration = new EndpointConfiguration("NServiceBusMailSample");
+        var endpointConfiguration = new EndpointConfiguration("NServiceBusMailSample");
 
-        configuration.UseSerialization<JsonSerializer>();
-        configuration.UsePersistence<InMemoryPersistence>();
-        configuration.EnableInstallers();
+        endpointConfiguration.UseSerialization<JsonSerializer>();
+        endpointConfiguration.UsePersistence<InMemoryPersistence>();
+        endpointConfiguration.EnableInstallers();
+        endpointConfiguration.SendFailedMessagesTo("error");
 
-        var mailerSettings = configuration.EnableMailer();
+        var mailerSettings = endpointConfiguration.EnableMailer();
         mailerSettings.UseSmtpBuilder<ToDirectorySmtpBuilder>();
         mailerSettings.UseAttachmentFinder<AttachmentFinder>();
 
-        var endpointInstance = await Endpoint.Start(configuration).ConfigureAwait(false);
+        var endpointInstance = await Endpoint.Start(endpointConfiguration)
+            .ConfigureAwait(false);
 
         try
         {
@@ -34,7 +36,9 @@ class Program
 
                 if (key.Key == ConsoleKey.S)
                 {
-                    await endpointInstance.SendLocal(new MyMessage());
+                    var message = new MyMessage();
+                    await endpointInstance.SendLocal(message)
+                        .ConfigureAwait(false);
                 }
 
                 if (key.Key == ConsoleKey.Escape)
@@ -45,7 +49,8 @@ class Program
         }
         finally
         {
-            await endpointInstance.Stop().ConfigureAwait(false);
+            await endpointInstance.Stop()
+                .ConfigureAwait(false);
         }
     }
 }

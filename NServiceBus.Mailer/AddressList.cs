@@ -16,7 +16,10 @@
         /// </summary>
         public static implicit operator AddressList(string address)
         {
-            return new AddressList { address };
+            return new AddressList
+            {
+                address
+            };
         }
 
         /// <summary>
@@ -24,7 +27,10 @@
         /// </summary>
         public static implicit operator AddressList(List<string> address)
         {
-            return new AddressList { innerList = new List<string>(address) };
+            return new AddressList
+            {
+                innerList = new List<string>(address)
+            };
         }
 
         /// <summary>
@@ -93,18 +99,9 @@
         /// <summary>
         /// <see cref="ICollection{T}.Count"/>
         /// </summary>
-        public int Count
-        {
-            get
-            {
-                return innerList.Count;
-            }
-        }
+        public int Count => innerList.Count;
 
-        bool ICollection<string>.IsReadOnly
-        {
-            get { return ((IList<string>)innerList).IsReadOnly; }
-        }
+        bool ICollection<string>.IsReadOnly => ((IList<string>)innerList).IsReadOnly;
 
         /// <summary>
         /// <see cref="IList{T}.IndexOf"/>

@@ -1,7 +1,6 @@
 ﻿using System.Threading.Tasks;
 using NServiceBus.Features;
 using NServiceBus.ObjectBuilder;
-using NServiceBus.Serialization;
 using NServiceBus.Transport;
 
 namespace NServiceBus.Mailer
