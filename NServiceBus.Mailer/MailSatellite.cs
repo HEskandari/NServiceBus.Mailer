@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Mail;
@@ -14,13 +13,13 @@ namespace NServiceBus.Mailer
 {
     class MailSatellite
     {
-        Func<IReadOnlyDictionary<string, string>, Task<IEnumerable<Attachment>>> findAttachments;
-        Func<IReadOnlyDictionary<string, string>, Task> cleanAttachments;
-        Func<SmtpClient> buildSmtpClient;
+        FindAttachments findAttachments;
+        CleanAttachments cleanAttachments;
+        BuildSmtpClient buildSmtpClient;
         IMessageSerializer serializer;
         IDispatchMessages dispatchMessages;
 
-        public MailSatellite(Func<IReadOnlyDictionary<string, string>, Task<IEnumerable<Attachment>>> findAttachments, Func<IReadOnlyDictionary<string, string>, Task> cleanAttachments, Func<SmtpClient> buildSmtpClient, IMessageSerializer serializer)
+        public MailSatellite(FindAttachments findAttachments, CleanAttachments cleanAttachments, BuildSmtpClient buildSmtpClient, IMessageSerializer serializer)
         {
             this.findAttachments = findAttachments;
             this.cleanAttachments = cleanAttachments;

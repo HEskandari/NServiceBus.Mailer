@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net.Mail;
-using System.Threading.Tasks;
-using NServiceBus.Configuration.AdvanceExtensibility;
+﻿using NServiceBus.Configuration.AdvanceExtensibility;
 
 namespace NServiceBus.Mailer
 {
@@ -22,24 +18,21 @@ namespace NServiceBus.Mailer
         /// Register attachment discovery and cleanup.
         /// </summary>
         public void UseAttachmentFinder(
-            Func<IReadOnlyDictionary<string, string>, Task<IEnumerable<Attachment>>> findAttachments,
-            Func<IReadOnlyDictionary<string, string>, Task> cleanAttachments
-            )
+            FindAttachments findAttachments,
+            CleanAttachments cleanAttachments)
         {
             var settings = config.GetSettings();
-            settings.Set("NServiceBus.Mailer.FindAttachments", findAttachments);
-            settings.Set("NServiceBus.Mailer.CleanAttachments", cleanAttachments);
+            settings.Set<FindAttachments>(findAttachments);
+            settings.Set<CleanAttachments>(cleanAttachments);
         }
 
         /// <summary>
         /// Register a custom SmtpClient builder.
         /// </summary>
-        public void UseSmtpBuilder(Func<SmtpClient> buildSmtpClient)
+        public void UseSmtpBuilder(BuildSmtpClient buildSmtpClient)
         {
             var settings = config.GetSettings();
-            settings.Set("NServiceBus.Mailer.BuildSmtpClient", buildSmtpClient);
+            settings.Set<BuildSmtpClient>(buildSmtpClient);
         }
-
-
     }
 }

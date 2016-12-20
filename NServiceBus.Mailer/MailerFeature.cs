@@ -38,14 +38,12 @@ namespace NServiceBus.Mailer
             var serializer = GetDefaultSerializer(settings);
             var satellite = new MailSatellite(attachmentFinder, attachmentCleaner, smtpBuilder, serializer);
 
-
-
             context.AddSatelliteReceiver(
                 name: "MailSatelite",
                 transportAddress: inputAddress,
                 runtimeSettings: PushRuntimeSettings.Default,
                 recoverabilityPolicy: (config, errorContext) => RecoverabilityAction.MoveToError(config.Failed.ErrorQueue),
-                onMessage: (builder, messageContext) => satellite.OnMessageReceived(builder, messageContext));
+                onMessage: satellite.OnMessageReceived);
         }
 
 

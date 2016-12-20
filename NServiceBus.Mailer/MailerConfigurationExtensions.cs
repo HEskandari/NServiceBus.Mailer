@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net.Mail;
-using System.Threading.Tasks;
-using NServiceBus.Settings;
+﻿using NServiceBus.Settings;
 
 namespace NServiceBus.Mailer
 {
@@ -22,19 +18,19 @@ namespace NServiceBus.Mailer
         }
 
 
-        internal static Func<SmtpClient> GetSmtpBuilder(this ReadOnlySettings settings)
+        internal static BuildSmtpClient GetSmtpBuilder(this ReadOnlySettings settings)
         {
-            return settings.GetOrDefault<Func<SmtpClient>>("NServiceBus.Mailer.BuildSmtpClient");
+            return settings.GetOrDefault<BuildSmtpClient>();
         }
 
-        internal static Func<IReadOnlyDictionary<string, string>, Task> GetAttachmentCleaner(this ReadOnlySettings settings)
+        internal static CleanAttachments GetAttachmentCleaner(this ReadOnlySettings settings)
         {
-            return settings.GetOrDefault<Func<IReadOnlyDictionary<string, string>, Task>>("NServiceBus.Mailer.CleanAttachments");
+            return settings.GetOrDefault<CleanAttachments>();
         }
 
-        internal static Func<IReadOnlyDictionary<string, string>, Task<IEnumerable<Attachment>>> GetAttachmentFinder(this ReadOnlySettings settings)
+        internal static FindAttachments GetAttachmentFinder(this ReadOnlySettings settings)
         {
-            return settings.GetOrDefault<Func<IReadOnlyDictionary<string, string>, Task<IEnumerable<Attachment>>>>("NServiceBus.Mailer.FindAttachments");
+            return settings.GetOrDefault<FindAttachments>();
         }
     }
 }
