@@ -64,6 +64,7 @@
     <Compile Include="BuildSmtpClient.cs" />
     <Compile Include="CleanAttachments.cs" />
     <Compile Include="FindAttachments.cs" />
+    <Compile Include="Guard.cs" />
     <Compile Include="Mail.cs" />
     <Compile Include="AddressList.cs" />
     <Compile Include="MailMessageDerializer.cs" />

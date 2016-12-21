@@ -21,6 +21,8 @@ namespace NServiceBus.Mailer
             FindAttachments findAttachments,
             CleanAttachments cleanAttachments)
         {
+            Guard.AgainstNull(nameof(findAttachments), findAttachments);
+            Guard.AgainstNull(nameof(cleanAttachments), cleanAttachments);
             var settings = config.GetSettings();
             settings.Set<FindAttachments>(findAttachments);
             settings.Set<CleanAttachments>(cleanAttachments);
@@ -31,6 +33,7 @@ namespace NServiceBus.Mailer
         /// </summary>
         public void UseSmtpBuilder(BuildSmtpClient buildSmtpClient)
         {
+            Guard.AgainstNull(nameof(buildSmtpClient), buildSmtpClient);
             var settings = config.GetSettings();
             settings.Set<BuildSmtpClient>(buildSmtpClient);
         }

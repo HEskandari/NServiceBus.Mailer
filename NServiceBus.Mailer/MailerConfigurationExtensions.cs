@@ -13,6 +13,7 @@ namespace NServiceBus.Mailer
         /// </summary>
         public static MailerConfigurationSettings EnableMailer(this EndpointConfiguration config)
         {
+            Guard.AgainstNull(nameof(config), config);
             config.EnableFeature<MailerFeature>();
             return new MailerConfigurationSettings(config);
         }

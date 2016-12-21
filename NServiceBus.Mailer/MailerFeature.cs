@@ -10,6 +10,7 @@ namespace NServiceBus.Mailer
 {
     class MailerFeature : Feature
     {
+
         public MailerFeature()
         {
             Prerequisite(IsSendableEndpoint, "Send only endpoints can't use the Mailer since it requires receive capabilities");
@@ -19,11 +20,9 @@ namespace NServiceBus.Mailer
         {
             return !context.Settings.GetOrDefault<bool>("Endpoint.SendOnly");
         }
-        
+
         protected override void Setup(FeatureConfigurationContext context)
         {
-            
-            var inputAddress = "Mail";
             var settings = context.Settings;
             var attachmentCleaner = settings.GetAttachmentCleaner();
             var attachmentFinder = settings.GetAttachmentFinder();
@@ -37,15 +36,25 @@ namespace NServiceBus.Mailer
             }
             var serializer = GetDefaultSerializer(settings);
             var satellite = new MailSatellite(attachmentFinder, attachmentCleaner, smtpBuilder, serializer);
-
+            var tenSeconds = TimeSpan.FromSeconds(10);
             context.AddSatelliteReceiver(
                 name: "MailSatelite",
-                transportAddress: inputAddress,
+                transportAddress: "Mail",
                 runtimeSettings: PushRuntimeSettings.Default,
-                recoverabilityPolicy: (config, errorContext) => RecoverabilityAction.MoveToError(config.Failed.ErrorQueue),
+                recoverabilityPolicy: (config, errorContext) =>
+                {
+                    if (errorContext.ImmediateProcessingFailures < 2)
+                    {
+                        return RecoverabilityAction.ImmediateRetry();
+                    }
+                    if (errorContext.DelayedDeliveriesPerformed < 3)
+                    {
+                        return RecoverabilityAction.DelayedRetry(tenSeconds);
+                    }
+                    return RecoverabilityAction.MoveToError(config.Failed.ErrorQueue);
+                },
                 onMessage: satellite.OnMessageReceived);
         }
-
 
         IMessageSerializer GetDefaultSerializer(ReadOnlySettings settings)
         {
