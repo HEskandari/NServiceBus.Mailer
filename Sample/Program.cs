@@ -20,10 +20,11 @@ class Program
     {
         var endpointConfiguration = new EndpointConfiguration("NServiceBusMailSample");
 
-        endpointConfiguration.UseSerialization<JsonSerializer>();
+        endpointConfiguration.UseSerialization<NewtonsoftSerializer>();
         endpointConfiguration.UsePersistence<InMemoryPersistence>();
-        endpointConfiguration.EnableInstallers();
+        endpointConfiguration.UseTransport<LearningTransport>();
         endpointConfiguration.SendFailedMessagesTo("error");
+        endpointConfiguration.EnableInstallers();
 
         var mailerSettings = endpointConfiguration.EnableMailer();
         mailerSettings.UseSmtpBuilder(() =>
