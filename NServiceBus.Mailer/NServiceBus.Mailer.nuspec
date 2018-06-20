@@ -4,17 +4,17 @@
     <id>NServiceBus.Mailer</id>
     <version>$version$</version>
     <title>NServiceBus.Mailer</title>
-    <authors>Simon Cropp</authors>
-    <owners>Simon Cropp</owners>
+    <authors>Simon Cropp, Hadi Eskandari</authors>
+    <owners>Simon Cropp, Hadi Eskandari</owners>
     <licenseUrl>http://www.opensource.org/licenses/mit-license.php</licenseUrl>
-    <projectUrl>http://github.com/SimonCropp/NServiceBus.Mailer</projectUrl>
+    <projectUrl>https://github.com/HEskandari/NServiceBus.Mailer</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <iconUrl>https://raw.github.com/SimonCropp/NServiceBus.Mailer/master/Icons/package_icon.png</iconUrl>
+    <iconUrl>https://raw.githubusercontent.com/HEskandari/NServiceBus.Mailer/master/Icons/package_icon.png</iconUrl>
     <description>An email sender for NServiceBus.</description>
     <language>en-AU</language>
-    <tags>NServiceBus, EMail, NServiceBus.Mailer</tags>
+    <tags>NServiceBus, EMail, NServiceBus.Mailer, NSB, ServiceBus, Mail</tags>
     <dependencies>
-      <dependency id="NServiceBus" version="[6.1.0, 7.0.0)" />
+      <dependency id="NServiceBus" version="[7.0.1, 8.0.0)" />
     </dependencies>
   </metadata>
 </package>
