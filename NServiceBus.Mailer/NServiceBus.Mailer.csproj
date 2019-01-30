@@ -1,102 +1,26 @@
-<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{9E81FDDA-66E8-48EE-9057-429EF8813DA1}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>NServiceBus.Mailer</RootNamespace>
-    <AssemblyName>NServiceBus.Mailer</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>../key.snk</AssemblyOriginatorKeyFile>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Version>5.0.0</Version>
+    <Authors>Simon Cropp, Hadi Eskandari</Authors>
+    <PackageLicenseUrl>http://www.opensource.org/licenses/mit-license.php</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/HEskandari/NServiceBus.Mailer</PackageProjectUrl>
+    <PackageIconUrl>https://raw.githubusercontent.com/HEskandari/NServiceBus.Mailer/master/Icons/package_icon.png</PackageIconUrl>
+    <RepositoryUrl>https://github.com/HEskandari/NServiceBus.Mailer</RepositoryUrl>
+    <PackageTags>NServiceBus, EMail, NServiceBus.Mailer, NSB, ServiceBus, Mail</PackageTags>
+    <Description>An email sender for NServiceBus.</Description>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Debug\NServiceBus.Mailer.xml</DocumentationFile>
-    <NoWarn>0649</NoWarn>
-    <Prefer32Bit>false</Prefer32Bit>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Release\NServiceBus.Mailer.xml</DocumentationFile>
-    <Prefer32Bit>false</Prefer32Bit>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
-  </PropertyGroup>
+
   <ItemGroup>
-    <Reference Include="NServiceBus.Core, Version=7.0.0.0, Culture=neutral, PublicKeyToken=9fc386479f8a226c, processorArchitecture=MSIL">
-      <HintPath>..\packages\NServiceBus.7.0.1\lib\net452\NServiceBus.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="Microsoft.CSharp" />
+    <PackageReference Include="NServiceBus" Version="7.0.1" />
+    <PackageReference Include="Fody" Version="5.1.1">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Publicize.Fody" Version="1.7.0" />
+    <PackageReference Include="Virtuosity.Fody" Version="3.0.0" />
+    <PackageReference Include="Fielder.Fody" Version="1.2.4" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="NServiceBus.Mailer.nuspec">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="packages.config">
-      <SubType>Designer</SubType>
-    </None>
-    <Content Include="FodyWeavers.xml">
-      <SubType>Designer</SubType>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="AlternateView.cs" />
-    <Compile Include="AssemblyInfo.cs" />
-    <Compile Include="BuildSmtpClient.cs" />
-    <Compile Include="CleanAttachments.cs" />
-    <Compile Include="FindAttachments.cs" />
-    <Compile Include="Guard.cs" />
-    <Compile Include="Mail.cs" />
-    <Compile Include="AddressList.cs" />
-    <Compile Include="MailMessageDerializer.cs" />
-    <Compile Include="MailSender.cs" />
-    <Compile Include="MailValidator.cs" />
-    <Compile Include="MessageConverter.cs" />
-    <Compile Include="MailerConfigurationExtensions.cs" />
-    <Compile Include="MailerConfigurationSettings.cs" />
-    <Compile Include="MailerFeature.cs" />
-    <Compile Include="MailMessage.cs" />
-    <Compile Include="MailSatellite.cs" />
-    <Compile Include="RetryMessageBuilder.cs" />
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Target Name="AfterBuild">
-    <ItemGroup>
-      <FilesToDelete Include="$(SolutionDir)NuGetBuild\**\*.*" />
-    </ItemGroup>
-    <Delete Files="@(FilesToDelete)" />
-    <MakeDir Directories="$(SolutionDir)NuGetBuild" />
-    <Copy SourceFiles="$(OutputPath)NServiceBus.Mailer.dll" DestinationFolder="$(SolutionDir)NuGetBuild\lib\net452" />
-    <Copy SourceFiles="$(OutputPath)NServiceBus.Mailer.pdb" DestinationFolder="$(SolutionDir)NuGetBuild\lib\net452" />
-    <Copy SourceFiles="$(OutputPath)NServiceBus.Mailer.xml" DestinationFolder="$(SolutionDir)NuGetBuild\lib\net452" />
-    <Copy SourceFiles="$(ProjectDir)NServiceBus.Mailer.nuspec" DestinationFolder="$(SolutionDir)NuGetBuild" />
-    <PepitaPackage.CreatePackageTask NuGetBuildDirectory="$(SolutionDir)NuGetBuild" MetadataAssembly="$(OutputPath)NServiceBus.Mailer.dll" />
-  </Target>
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('..\packages\PepitaPackage.1.21.4\build\PepitaPackage.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\PepitaPackage.1.21.4\build\PepitaPackage.targets'))" />
-    <Error Condition="!Exists('..\packages\Fody.1.29.4\build\dotnet\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Fody.1.29.4\build\dotnet\Fody.targets'))" />
-  </Target>
-  <Import Project="..\packages\PepitaPackage.1.21.4\build\PepitaPackage.targets" Condition="Exists('..\packages\PepitaPackage.1.21.4\build\PepitaPackage.targets')" />
-  <Import Project="..\packages\Fody.1.29.4\build\dotnet\Fody.targets" Condition="Exists('..\packages\Fody.1.29.4\build\dotnet\Fody.targets')" />
 </Project>
