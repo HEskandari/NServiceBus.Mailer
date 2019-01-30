@@ -1,7 +1,9 @@
 using System.Collections.Generic;
 using System.Net.Mail;
+using System.Runtime.CompilerServices;
 using System.Text;
 
+[assembly: InternalsVisibleTo("Tests")]
 namespace NServiceBus.Mailer
 {
     class MailMessage : IMessage

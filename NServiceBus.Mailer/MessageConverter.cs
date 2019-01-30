@@ -1,4 +1,7 @@
-﻿namespace NServiceBus.Mailer
+﻿using System.Runtime.CompilerServices;
+
+[assembly: InternalsVisibleTo("Tests")]
+namespace NServiceBus.Mailer
 {
     using System.Net.Mail;
     using System.Net.Mime;
