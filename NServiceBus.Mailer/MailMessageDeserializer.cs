@@ -1,4 +1,4 @@
-using System.IO;
+﻿using System.IO;
 using System.Linq;
 using NServiceBus.Mailer;
 using NServiceBus.Serialization;
@@ -10,7 +10,7 @@ static class MailMessageDeserializer
     {
         using (var stream = new MemoryStream(context.Body))
         {
-            return (MailMessage) messageSerializer.Deserialize(stream, new[] {typeof(MailMessage)}).Single();
+            return (MailMessage) messageSerializer.Deserialize(stream, new[] { typeof(MailMessage) }).Single();
         }
     }
 }
