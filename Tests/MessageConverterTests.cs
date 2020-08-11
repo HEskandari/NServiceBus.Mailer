@@ -1,4 +1,7 @@
-﻿namespace NServiceBus.Mailer
+﻿using System.Threading.Tasks;
+using VerifyNUnit;
+
+namespace NServiceBus.Mailer
 {
     using System.Collections.Generic;
     using System.IO;
@@ -6,58 +9,75 @@
     using System.Net.Mail;
     using System.Text;
     using NUnit.Framework;
-
+    using VerifyTests;
+    
     [TestFixture]
-    class MessageConverterTests
+    class MessageConverterTests : BaseVerifyTest
     {
+        public MessageConverterTests()
+        {
+            //Don't want this
+            //settings.ModifySerialization(_ => _.IgnoreMembersWithType<Encoding>());
+            
+            VerifierSettings.TreatAsString<Encoding>(
+                (target, verifySettings) =>
+                {
+                    return target.EncodingName;
+                });
+        }
+       
         [Test]
-        public void MailToMailMessage()
+        public async Task MailToMailMessage()
         {
             var mailMessage = new Mail
+            {
+                DeliveryNotificationOptions = DeliveryNotificationOptions.Delay,
+                IsBodyHtml = true,
+                AlternateViews = new List<AlternateView>
                 {
-                    DeliveryNotificationOptions = DeliveryNotificationOptions.Delay,
-                    IsBodyHtml = true,
-                    AlternateViews = new List<AlternateView>
-                        {
-                            new AlternateView
-                            {
-                                Content = "AlternateView1",
-                                ContentType = "html/text"
-                            }
-                        },
-                    Bcc = "bcc@b.com",
-                    Cc = "cc@b.com",
-                    To = "to@b.com",
-                    ReplyTo = "reply@b.com",
-                    Subject = "Subject",
-                    Body = "Body",
-                    From = "from@b.com",
-                    BodyEncoding = Encoding.UTF32,
-                    Headers = new Dictionary<string, string> {{"Key", "Value"}},
-                    HeadersEncoding = Encoding.UTF32,
-                    Sender = "sender@b.com",
-                    Priority = MailPriority.High,
-                    SubjectEncoding = Encoding.UTF32,
-                };
+                    new AlternateView
+                    {
+                        Content = "AlternateView1",
+                        ContentType = "html/text"
+                    }
+                },
+                Bcc = "bcc@b.com",
+                Cc = "cc@b.com",
+                To = "to@b.com",
+                ReplyTo = "reply@b.com",
+                Subject = "Subject",
+                Body = "Body",
+                From = "from@b.com",
+                BodyEncoding = Encoding.UTF32,
+                Headers = new Dictionary<string, string> {{"Key", "Value"}},
+                HeadersEncoding = Encoding.UTF32,
+                Sender = "sender@b.com",
+                Priority = MailPriority.High,
+                SubjectEncoding = Encoding.UTF32,
+            };
+            
             var message = mailMessage.ToMailMessage();
-            Assert.AreEqual(DeliveryNotificationOptions.Delay, message.DeliveryNotificationOptions);
-            Assert.IsTrue(message.IsBodyHtml);
-            var alternateView = message.AlternateViews.First();
-            Assert.AreEqual("AlternateView1", alternateView.Content);
-            Assert.AreEqual("html/text", alternateView.ContentType);
-            Assert.AreEqual("bcc@b.com", message.Bcc.First());
-            Assert.AreEqual("cc@b.com", message.Cc.First());
-            Assert.AreEqual("to@b.com", message.To.First());
-            Assert.AreEqual("reply@b.com", message.ReplyTo.First());
-            Assert.AreEqual("sender@b.com", message.Sender);
-            Assert.AreEqual("from@b.com", message.From);
-            Assert.AreEqual("Subject", message.Subject);
-            Assert.AreEqual("Body", message.Body);
-            Assert.AreEqual(Encoding.UTF32, message.BodyEncoding);
-            Assert.AreEqual(Encoding.UTF32, message.SubjectEncoding);
-            Assert.AreEqual(Encoding.UTF32, message.HeadersEncoding);
-            Assert.AreEqual(MailPriority.High, message.Priority);
-            Assert.AreEqual("Value", message.Headers["Key"]);
+            await Verifier.Verify(message);
+            
+            // Assert.AreEqual(DeliveryNotificationOptions.Delay, message.DeliveryNotificationOptions);
+            // Assert.IsTrue(message.IsBodyHtml);
+            //
+            // var alternateView = message.AlternateViews.First();
+            // Assert.AreEqual("AlternateView1", alternateView.Content);
+            // Assert.AreEqual("html/text", alternateView.ContentType);
+            // Assert.AreEqual("bcc@b.com", message.Bcc.First());
+            // Assert.AreEqual("cc@b.com", message.Cc.First());
+            // Assert.AreEqual("to@b.com", message.To.First());
+            // Assert.AreEqual("reply@b.com", message.ReplyTo.First());
+            // Assert.AreEqual("sender@b.com", message.Sender);
+            // Assert.AreEqual("from@b.com", message.From);
+            // Assert.AreEqual("Subject", message.Subject);
+            // Assert.AreEqual("Body", message.Body);
+            // Assert.AreEqual(Encoding.UTF32, message.BodyEncoding);
+            // Assert.AreEqual(Encoding.UTF32, message.SubjectEncoding);
+            // Assert.AreEqual(Encoding.UTF32, message.HeadersEncoding);
+            // Assert.AreEqual(MailPriority.High, message.Priority);
+            // Assert.AreEqual("Value", message.Headers["Key"]);
         }
 
         [Test]
