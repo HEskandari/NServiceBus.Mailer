@@ -18,23 +18,23 @@ namespace NServiceBus.Mailer
         static MailMessage ReSend(string failedRecipient, string newBody, MailMessage originalMessage)
         {
             return new MailMessage
-                   {
-                       To = new List<string> { failedRecipient },
-                       From = originalMessage.From,
-                       Body = newBody,
-                       BodyEncoding = originalMessage.BodyEncoding,
-                       DeliveryNotificationOptions = originalMessage.DeliveryNotificationOptions,
-                       Headers = originalMessage.Headers,
-                       HeadersEncoding = originalMessage.HeadersEncoding,
-                       IsBodyHtml = originalMessage.IsBodyHtml,
-                       Priority = originalMessage.Priority,
-                       ReplyTo = originalMessage.ReplyTo,
-                       Sender = originalMessage.Sender,
-                       Subject = originalMessage.Subject,
-                       SubjectEncoding = originalMessage.SubjectEncoding,
-                       AttachmentContext = originalMessage.AttachmentContext,
-                       AlternateViews = originalMessage.AlternateViews,
-                   };
+            {
+                To = new List<string> {failedRecipient},
+                From = originalMessage.From,
+                Body = newBody,
+                BodyEncoding = originalMessage.BodyEncoding,
+                DeliveryNotificationOptions = originalMessage.DeliveryNotificationOptions,
+                Headers = originalMessage.Headers,
+                HeadersEncoding = originalMessage.HeadersEncoding,
+                IsBodyHtml = originalMessage.IsBodyHtml,
+                Priority = originalMessage.Priority,
+                ReplyTo = originalMessage.ReplyTo,
+                Sender = originalMessage.Sender,
+                Subject = originalMessage.Subject,
+                SubjectEncoding = originalMessage.SubjectEncoding,
+                AttachmentContext = originalMessage.AttachmentContext,
+                AlternateViews = originalMessage.AlternateViews,
+            };
         }
 
         static string GetForwardBody(MailMessage original, DateTime timesent)

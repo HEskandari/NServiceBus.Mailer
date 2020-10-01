@@ -8,10 +8,10 @@
         /// <summary>
         /// The content type of this attachment
         /// </summary>
-        public string ContentType;
+        public string ContentType { get; set; }
         /// <summary>
         /// The content type of this attachment
         /// </summary>
-        public string Content;
+        public string Content { get; set; }
     }
 }

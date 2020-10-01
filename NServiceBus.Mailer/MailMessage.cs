@@ -6,23 +6,23 @@ namespace NServiceBus.Mailer
 {
     class MailMessage : IMessage
     {
-        public List<string> To;
-        public List<string> Bcc;
-        public List<string> Cc;
-        public List<string> ReplyTo;
-        public string From;
-        public string Body;
-        public Encoding BodyEncoding;
-        public DeliveryNotificationOptions DeliveryNotificationOptions;
-        public Dictionary<string, string> Headers;
-        public Encoding HeadersEncoding;
-        public bool IsBodyHtml;
-        public string Sender;
-        public string Subject;
-        public Encoding SubjectEncoding;
-        public MailPriority Priority;
-        public Dictionary<string, string> AttachmentContext;
+        public List<string> To { get; set; }
+        public List<string> Bcc { get; set; }
+        public List<string> Cc { get; set; }
+        public List<string> ReplyTo { get; set; }
+        public string From { get; set; }
+        public string Body { get; set; }
+        public Encoding BodyEncoding { get; set; }
+        public DeliveryNotificationOptions DeliveryNotificationOptions { get; set; }
+        public Dictionary<string, string> Headers { get; set; }
+        public Encoding HeadersEncoding { get; set; }
+        public bool IsBodyHtml { get; set; }
+        public string Sender { get; set; }
+        public string Subject { get; set; }
+        public Encoding SubjectEncoding { get; set; }
+        public MailPriority Priority { get; set; }
+        public Dictionary<string, string> AttachmentContext { get; set; }
 
-        public List<AlternateView> AlternateViews;
+        public List<AlternateView> AlternateViews { get; set; }
     }
 }
