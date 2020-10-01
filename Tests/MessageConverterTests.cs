@@ -20,7 +20,7 @@ namespace NServiceBus.Mailer
 
         public MessageConverterTests()
         {
-            DiffTools.UseOrder(DiffTool.Rider, DiffTool.VisualStudioCode, DiffTool.VisualStudio);
+            DiffTools.UseOrder(DiffTool.VisualStudioCode, DiffTool.Rider, DiffTool.VisualStudio);
             VerifierSettings.AddExtraSettings(s => s.Converters.Add(new EncodingConverter()));
             
             settings = new VerifySettings();
