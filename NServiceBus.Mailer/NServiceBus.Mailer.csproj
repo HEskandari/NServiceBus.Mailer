@@ -4,13 +4,14 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <Version>5.0.0</Version>
     <Authors>Simon Cropp, Hadi Eskandari</Authors>
-    <PackageLicenseUrl>http://www.opensource.org/licenses/mit-license.php</PackageLicenseUrl>
+    <PackageLicenseFile>license.txt</PackageLicenseFile>
     <PackageProjectUrl>https://github.com/HEskandari/NServiceBus.Mailer</PackageProjectUrl>
-    <PackageIconUrl>https://raw.githubusercontent.com/HEskandari/NServiceBus.Mailer/master/Icons/package_icon.png</PackageIconUrl>
+    <PackageIcon>package_icon.png</PackageIcon>
     <RepositoryUrl>https://github.com/HEskandari/NServiceBus.Mailer</RepositoryUrl>
     <PackageTags>NServiceBus, EMail, NServiceBus.Mailer, NSB, ServiceBus, Mail</PackageTags>
     <Description>An email sender for NServiceBus.</Description>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <PackageOutputPath>..\Publish</PackageOutputPath>
   </PropertyGroup>
 
   <ItemGroup>
@@ -27,5 +28,10 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>compile; runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup Label="Files">
+    <None Visible="false" Include="../license.txt" Pack="true" PackagePath="license.txt"/>
+    <None Visible="false" Include="../Icons/package_icon.png" Pack="true" PackagePath=""/>
   </ItemGroup>
 </Project>

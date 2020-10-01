@@ -1,8 +1,10 @@
-NServiceBus.Mailer
-===============
+# <img src='/Icons/package_icon.png' height='30px'> NServiceBus.Mailer
+
+[![Build status](https://ci.appveyor.com/api/projects/status/on2svv1qboc4v4xc/branch/master?svg=true)](https://ci.appveyor.com/project/HEskandari/nservicebus-mailer)
+[![NuGet Status](http://img.shields.io/nuget/v/NServiceBus.Mailer.svg?label=NServiceBus.Mailer)](https://www.nuget.org/packages/NServiceBus.Mailer/)
 
 
-## The nuget package  [![NuGet Status](http://img.shields.io/nuget/v/NServiceBus.Mailer.svg?style=flat)](https://www.nuget.org/packages/NServiceBus.Mailer/)
+## Installing the package
 
 https://nuget.org/packages/NServiceBus.Mailer/
 

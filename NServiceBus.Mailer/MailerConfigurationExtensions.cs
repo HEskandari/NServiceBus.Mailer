@@ -18,7 +18,6 @@ namespace NServiceBus.Mailer
             return new MailerConfigurationSettings(config);
         }
 
-
         internal static BuildSmtpClient GetSmtpBuilder(this ReadOnlySettings settings)
         {
             return settings.GetOrDefault<BuildSmtpClient>();
