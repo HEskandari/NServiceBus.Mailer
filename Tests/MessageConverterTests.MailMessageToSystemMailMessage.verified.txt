@@ -1,0 +1,76 @@
+{
+  message: {
+    From: {
+      DisplayName: '',
+      User: 'from',
+      Host: 'b.com',
+      Address: 'from@b.com'
+    },
+    Sender: {
+      DisplayName: '',
+      User: 'sender',
+      Host: 'b.com',
+      Address: 'sender@b.com'
+    },
+    ReplyToList: [
+      {
+        DisplayName: '',
+        User: 'reply',
+        Host: 'b.com',
+        Address: 'reply@b.com'
+      }
+    ],
+    To: [
+      {
+        DisplayName: '',
+        User: 'to',
+        Host: 'b.com',
+        Address: 'to@b.com'
+      }
+    ],
+    Bcc: [
+      {
+        DisplayName: '',
+        User: 'bcc',
+        Host: 'b.com',
+        Address: 'bcc@b.com'
+      }
+    ],
+    CC: [
+      {
+        DisplayName: '',
+        User: 'cc',
+        Host: 'b.com',
+        Address: 'cc@b.com'
+      }
+    ],
+    Priority: 'High',
+    DeliveryNotificationOptions: 'Delay',
+    Subject: 'Subject',
+    SubjectEncoding: 'Unicode (UTF-32)',
+    Headers: [
+      'Key'
+    ],
+    HeadersEncoding: 'Unicode (UTF-32)',
+    Body: 'Body',
+    BodyEncoding: 'Unicode (UTF-32)',
+    BodyTransferEncoding: 'Unknown',
+    IsBodyHtml: true,
+    AlternateViews: [
+      {
+        ContentId: Guid_1,
+        ContentType: {
+          MediaType: 'html/text',
+          Parameters: []
+        }
+      }
+    ]
+  },
+  alternateView: {
+    ContentId: Guid_1,
+    ContentType: {
+      MediaType: 'html/text',
+      Parameters: []
+    }
+  }
+}
