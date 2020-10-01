@@ -1,0 +1,33 @@
+{
+  To: [
+    'to@b.com'
+  ],
+  Bcc: [
+    'bcc@b.com'
+  ],
+  Cc: [
+    'cc@b.com'
+  ],
+  ReplyTo: [
+    'reply@b.com'
+  ],
+  From: 'from@b.com',
+  Body: 'Body',
+  BodyEncoding: 'Unicode (UTF-32)',
+  DeliveryNotificationOptions: 'Delay',
+  Headers: {
+    Key: 'Value'
+  },
+  HeadersEncoding: 'Unicode (UTF-32)',
+  IsBodyHtml: true,
+  Sender: 'sender@b.com',
+  Subject: 'Subject',
+  SubjectEncoding: 'Unicode (UTF-32)',
+  Priority: 'High',
+  AlternateViews: [
+    {
+      ContentType: 'html/text',
+      Content: 'AlternateView1'
+    }
+  ]
+}
