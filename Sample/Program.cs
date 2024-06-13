@@ -15,8 +15,8 @@ class Program
     {
         var endpointConfiguration = new EndpointConfiguration("NServiceBusMailSample");
 
-        endpointConfiguration.UseSerialization<NewtonsoftSerializer>();
-        endpointConfiguration.UsePersistence<InMemoryPersistence>();
+        endpointConfiguration.UseSerialization<SystemJsonSerializer>();
+        endpointConfiguration.UsePersistence<NonDurablePersistence>();
         endpointConfiguration.UseTransport<LearningTransport>();
         endpointConfiguration.SendFailedMessagesTo("error");
         endpointConfiguration.EnableInstallers();
@@ -37,7 +37,7 @@ class Program
                 var id = attachmentContext["Id"];
                 var memoryStream = new MemoryStream(Encoding.ASCII.GetBytes("Hello"));
                 var attachment = new Attachment(memoryStream, "example.txt", "text/plain");
-                var attachments = new List<Attachment> {attachment};
+                var attachments = new List<Attachment> { attachment };
                 return Task.FromResult<IEnumerable<Attachment>>(attachments);
             },
             cleanAttachments: attachmentContext =>

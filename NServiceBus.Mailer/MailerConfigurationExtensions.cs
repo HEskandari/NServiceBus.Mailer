@@ -18,17 +18,17 @@ namespace NServiceBus.Mailer
             return new MailerConfigurationSettings(config);
         }
 
-        internal static BuildSmtpClient GetSmtpBuilder(this ReadOnlySettings settings)
+        internal static BuildSmtpClient GetSmtpBuilder(this IReadOnlySettings settings)
         {
             return settings.GetOrDefault<BuildSmtpClient>();
         }
 
-        internal static CleanAttachments GetAttachmentCleaner(this ReadOnlySettings settings)
+        internal static CleanAttachments GetAttachmentCleaner(this IReadOnlySettings settings)
         {
             return settings.GetOrDefault<CleanAttachments>();
         }
 
-        internal static FindAttachments GetAttachmentFinder(this ReadOnlySettings settings)
+        internal static FindAttachments GetAttachmentFinder(this IReadOnlySettings settings)
         {
             return settings.GetOrDefault<FindAttachments>();
         }

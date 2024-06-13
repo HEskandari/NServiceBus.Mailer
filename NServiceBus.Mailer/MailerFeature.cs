@@ -39,7 +39,7 @@ namespace NServiceBus.Mailer
             var tenSeconds = TimeSpan.FromSeconds(10);
             context.AddSatelliteReceiver(
                 name: "MailSatelite",
-                transportAddress: "Mail",
+                transportAddress: new QueueAddress("Mail"),
                 runtimeSettings: PushRuntimeSettings.Default,
                 recoverabilityPolicy: (config, errorContext) =>
                 {
@@ -56,7 +56,7 @@ namespace NServiceBus.Mailer
                 onMessage: satellite.OnMessageReceived);
         }
 
-        IMessageSerializer GetDefaultSerializer(ReadOnlySettings settings)
+        IMessageSerializer GetDefaultSerializer(IReadOnlySettings settings)
         {
             var mainSerializer = settings.Get<Tuple<SerializationDefinition, SettingsHolder>>("MainSerializer");
             var serializerFactory = mainSerializer.Item1.Configure(settings);
