@@ -1,10 +1,12 @@
 ﻿using NServiceBus.Configuration.AdvancedExtensibility;
+using System;
 
 namespace NServiceBus.Mailer
 {
     /// <summary>
     /// Configuration settings for Mailer.
     /// </summary>
+    [Obsolete("Use MailerOptions return type from EnableMailer(string domain)")]
     public class MailerConfigurationSettings
     {
         EndpointConfiguration config;
