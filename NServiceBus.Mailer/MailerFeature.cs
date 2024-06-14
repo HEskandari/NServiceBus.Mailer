@@ -10,7 +10,6 @@ namespace NServiceBus.Mailer
 {
     class MailerFeature : Feature
     {
-
         public MailerFeature()
         {
             Prerequisite(IsSendableEndpoint, "Send only endpoints can't use the Mailer since it requires receive capabilities");
@@ -23,19 +22,17 @@ namespace NServiceBus.Mailer
 
         protected override void Setup(FeatureConfigurationContext context)
         {
-            var settings = context.Settings;
-            var attachmentCleaner = settings.GetAttachmentCleaner();
-            var attachmentFinder = settings.GetAttachmentFinder();
-            var smtpBuilder = settings.GetSmtpBuilder();
-            if (smtpBuilder == null)
+            var options = context.Settings.GetOrDefault<MailerOptions>();
+            if (options.SmtpClientBuilder == null)
             {
-                smtpBuilder = () => new SmtpClient
+                options.SmtpClientBuilder = () => new SmtpClient
                 {
                     EnableSsl = true
                 };
             }
-            var serializer = GetDefaultSerializer(settings);
-            var satellite = new MailSatellite(attachmentFinder, attachmentCleaner, smtpBuilder, serializer);
+
+            var serializer = GetDefaultSerializer(context.Settings);
+            var satellite = new MailSatellite(options, serializer);
             var tenSeconds = TimeSpan.FromSeconds(10);
             context.AddSatelliteReceiver(
                 name: "MailSatelite",

@@ -8,23 +8,26 @@ using Microsoft.Extensions.DependencyInjection;
 using NServiceBus.Routing;
 using NServiceBus.Serialization;
 using NServiceBus.Transport;
+using static Headers;
 
 namespace NServiceBus.Mailer
 {
     class MailSatellite
     {
-        FindAttachments findAttachments;
-        CleanAttachments cleanAttachments;
-        BuildSmtpClient buildSmtpClient;
-        IMessageSerializer serializer;
+        readonly FindAttachments findAttachments;
+        readonly CleanAttachments cleanAttachments;
+        readonly BuildSmtpClient buildSmtpClient;
+        readonly IMessageSerializer serializer;
         IMessageDispatcher dispatchMessages;
+        readonly string domain;
 
-        public MailSatellite(FindAttachments findAttachments, CleanAttachments cleanAttachments, BuildSmtpClient buildSmtpClient, IMessageSerializer serializer)
+        public MailSatellite(MailerOptions options, IMessageSerializer serializer)
         {
-            this.findAttachments = findAttachments;
-            this.cleanAttachments = cleanAttachments;
-            this.buildSmtpClient = buildSmtpClient;
+            this.findAttachments = options.AttachmentsFinder;
+            this.cleanAttachments = options.AttachmentCleaner;
+            this.buildSmtpClient = options.SmtpClientBuilder;
             this.serializer = serializer;
+            this.domain = options.Domain;
         }
 
         public async Task OnMessageReceived(IServiceProvider serviceProvider, MessageContext messageContext, CancellationToken cancellationToken)
@@ -35,9 +38,22 @@ namespace NServiceBus.Mailer
             }
             var sendEmail = serializer.DeserializeMessage(messageContext);
 
+            if (!sendEmail.Headers.ContainsKey(MessageIdKey) && domain != null)
+            {
+                messageContext.Headers.TryGetValue(Headers.MessageId, out var incomingMessageId);
+
+                if (!Guid.TryParse(incomingMessageId, out var messageId))
+                {
+                    throw new ArgumentException($"Incoming message does not have {Headers.MessageId} header or value is not a Guid");
+                }
+
+                sendEmail.SetMessageId(messageId, domain);
+            }
+
             using (var smtpClient = buildSmtpClient())
             using (var mailMessage = sendEmail.ToMailMessage())
             {
+
                 await AddAttachments(sendEmail, mailMessage);
                 try
                 {
