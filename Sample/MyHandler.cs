@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+using System;
 using System.Threading.Tasks;
 using NServiceBus;
 using NServiceBus.Logging;
@@ -16,11 +16,14 @@ public class MyHandler : IHandleMessages<MyMessage>
             From = "from@fake.email",
             Body = "This is the body",
             Subject = "Hello",
-            AttachmentContext = new Dictionary<string, string>
-            {
+            AttachmentContext = {
                 {"Id", "fakeEmail"}
             }
         };
+
+        var messageId = Guid.Parse(context.MessageId);
+        mail.SetMessageId(messageId, "microsoft.com");
+
         await context.SendMail(mail);
         log.Info($"Mail sent and written to {Program.DirectoryLocation}");
     }
