@@ -10,6 +10,8 @@ namespace NServiceBus.Mailer
 {
     class MailerFeature : Feature
     {
+        internal const string SubQueueName = "Mail";
+
         public MailerFeature()
         {
             Prerequisite(IsSendableEndpoint, "Send only endpoints can't use the Mailer since it requires receive capabilities");
@@ -36,7 +38,7 @@ namespace NServiceBus.Mailer
             var tenSeconds = TimeSpan.FromSeconds(10);
             context.AddSatelliteReceiver(
                 name: "MailSatelite",
-                transportAddress: new QueueAddress("Mail"),
+                transportAddress: new QueueAddress(SubQueueName),
                 runtimeSettings: PushRuntimeSettings.Default,
                 recoverabilityPolicy: (config, errorContext) =>
                 {

@@ -53,7 +53,6 @@ namespace NServiceBus.Mailer
             using (var smtpClient = buildSmtpClient())
             using (var mailMessage = sendEmail.ToMailMessage())
             {
-
                 await AddAttachments(sendEmail, mailMessage);
                 try
                 {
@@ -94,7 +93,7 @@ namespace NServiceBus.Mailer
             var operation = new TransportOperations(
                     new TransportOperation(
                         message: new OutgoingMessage(messageContext.NativeMessageId, messageContext.Headers, serializedMessage),
-                        addressTag: new UnicastAddressTag("Mail")));
+                        addressTag: new UnicastAddressTag(MailerFeature.SubQueueName)));
             return dispatchMessages.Dispatch(operation, new TransportTransaction());
         }
 
