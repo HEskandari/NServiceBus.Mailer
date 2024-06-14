@@ -2,9 +2,9 @@
 using System.IO;
 using System.Linq;
 using System.Net.Mail;
+using System.Threading;
 using System.Threading.Tasks;
-using NServiceBus.Extensibility;
-using NServiceBus.ObjectBuilder;
+using Microsoft.Extensions.DependencyInjection;
 using NServiceBus.Routing;
 using NServiceBus.Serialization;
 using NServiceBus.Transport;
@@ -17,7 +17,7 @@ namespace NServiceBus.Mailer
         CleanAttachments cleanAttachments;
         BuildSmtpClient buildSmtpClient;
         IMessageSerializer serializer;
-        IDispatchMessages dispatchMessages;
+        IMessageDispatcher dispatchMessages;
 
         public MailSatellite(FindAttachments findAttachments, CleanAttachments cleanAttachments, BuildSmtpClient buildSmtpClient, IMessageSerializer serializer)
         {
@@ -27,11 +27,11 @@ namespace NServiceBus.Mailer
             this.serializer = serializer;
         }
 
-        public async Task OnMessageReceived(IBuilder builder, MessageContext messageContext)
+        public async Task OnMessageReceived(IServiceProvider serviceProvider, MessageContext messageContext, CancellationToken cancellationToken)
         {
             if (dispatchMessages == null)
             {
-                dispatchMessages = builder.Build<IDispatchMessages>();
+                dispatchMessages = serviceProvider.GetRequiredService<IMessageDispatcher>();
             }
             var sendEmail = serializer.DeserializeMessage(messageContext);
 
@@ -69,14 +69,14 @@ namespace NServiceBus.Mailer
             var serializedMessage = Serialize(newMessage);
             var operation = new TransportOperations(
                     new TransportOperation(
-                        message: new OutgoingMessage(messageContext.MessageId, messageContext.Headers, serializedMessage),
+                        message: new OutgoingMessage(messageContext.NativeMessageId, messageContext.Headers, serializedMessage),
                         addressTag: new UnicastAddressTag("Mail")));
-            return dispatchMessages.Dispatch(operation, new TransportTransaction(), new ContextBag());
+            return dispatchMessages.Dispatch(operation, new TransportTransaction());
         }
 
-        static DateTime TimeSent(MessageContext context)
+        static DateTimeOffset TimeSent(MessageContext context)
         {
-            return DateTimeExtensions.ToUtcDateTime(context.Headers[Headers.TimeSent]);
+            return DateTimeOffsetHelper.ToDateTimeOffset(context.Headers[Headers.TimeSent]);
         }
 
         Task CleanAttachments(MailMessage sendEmail)

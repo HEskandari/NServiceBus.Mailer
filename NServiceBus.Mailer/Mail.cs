@@ -34,7 +34,7 @@
         /// <summary>
         /// The encoding used to encode the message body.
         /// </summary>
-        public Encoding BodyEncoding { get; set; }
+        public string BodyEncoding { get; set; }
 
         /// <summary>
         /// The delivery notifications for this e-mail message.
@@ -59,7 +59,7 @@
         /// <summary>
         /// The encoding used for the user-defined custom headers for this e-mail message.
         /// </summary> 
-        public Encoding HeadersEncoding { get; set; }
+        public string HeadersEncoding { get; set; }
 
         /// <summary>
         /// A value indicating whether the mail message body is in Html.
@@ -84,7 +84,7 @@
         /// <summary>
         /// The encoding used for the subject content for this e-mail message.
         /// </summary> 
-        public Encoding SubjectEncoding { get; set; }
+        public string SubjectEncoding{ get; set; }
 
         /// <summary>
         /// The priority of this e-mail message.

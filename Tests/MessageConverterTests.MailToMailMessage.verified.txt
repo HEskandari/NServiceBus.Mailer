@@ -1,33 +1,33 @@
 {
   To: [
-    'to@b.com'
+    to@b.com
   ],
   Bcc: [
-    'bcc@b.com'
+    bcc@b.com
   ],
   Cc: [
-    'cc@b.com'
+    cc@b.com
   ],
   ReplyTo: [
-    'reply@b.com'
+    reply@b.com
   ],
-  From: 'from@b.com',
-  Body: 'Body',
-  BodyEncoding: 'Unicode (UTF-32)',
-  DeliveryNotificationOptions: 'Delay',
+  From: from@b.com,
+  Body: Body,
+  BodyEncoding: utf-32,
+  DeliveryNotificationOptions: Delay,
   Headers: {
-    Key: 'Value'
+    Key: Value
   },
-  HeadersEncoding: 'Unicode (UTF-32)',
+  HeadersEncoding: utf-32,
   IsBodyHtml: true,
-  Sender: 'sender@b.com',
-  Subject: 'Subject',
-  SubjectEncoding: 'Unicode (UTF-32)',
-  Priority: 'High',
+  Sender: sender@b.com,
+  Subject: Subject,
+  SubjectEncoding: utf-32,
+  Priority: High,
   AlternateViews: [
     {
-      ContentType: 'html/text',
-      Content: 'AlternateView1'
+      ContentType: html/text,
+      Content: AlternateView1
     }
   ]
 }

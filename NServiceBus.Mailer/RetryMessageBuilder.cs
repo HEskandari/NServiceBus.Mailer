@@ -7,7 +7,7 @@ namespace NServiceBus.Mailer
 {
     static class RetryMessageBuilder
     {
-        public static IEnumerable<MailMessage> GetMessagesToRetry(MailMessage originalMessage, DateTime originalTimeSent, SmtpFailedRecipientsException exception)
+        public static IEnumerable<MailMessage> GetMessagesToRetry(MailMessage originalMessage, DateTimeOffset originalTimeSent, SmtpFailedRecipientsException exception)
         {
             var newBody = GetForwardBody(originalMessage, originalTimeSent);
             return exception.InnerExceptions
@@ -19,7 +19,7 @@ namespace NServiceBus.Mailer
         {
             return new MailMessage
             {
-                To = new List<string> {failedRecipient},
+                To = new List<string> { failedRecipient },
                 From = originalMessage.From,
                 Body = newBody,
                 BodyEncoding = originalMessage.BodyEncoding,
@@ -37,7 +37,7 @@ namespace NServiceBus.Mailer
             };
         }
 
-        static string GetForwardBody(MailMessage original, DateTime timesent)
+        static string GetForwardBody(MailMessage original, DateTimeOffset timesent)
         {
             if (original.IsBodyHtml)
             {
@@ -46,7 +46,7 @@ namespace NServiceBus.Mailer
             return GetTextPrefix(original, timesent);
         }
 
-        static string GetTextPrefix(MailMessage original, DateTime timesent)
+        static string GetTextPrefix(MailMessage original, DateTimeOffset timesent)
         {
             return $@"
 This message was forwarded due to the original email failing to send
@@ -59,7 +59,7 @@ Sent: {timesent:R}
 ";
         }
 
-        static string GetHtmlPrefix(MailMessage original, DateTime timesent)
+        static string GetHtmlPrefix(MailMessage original, DateTimeOffset timesent)
         {
             return $@"
 This message was forwarded due to the original email failing to send<br/>

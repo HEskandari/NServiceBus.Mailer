@@ -2,6 +2,7 @@
 {
     using System.Net.Mail;
     using System.Net.Mime;
+    using System.Text;
     using SystemAlternateView = System.Net.Mail.AlternateView;
     using SystemMailMessage = System.Net.Mail.MailMessage;
 
@@ -40,9 +41,9 @@
                 Priority = mail.Priority,
                 Body = mail.Body,
                 Subject = mail.Subject,
-                BodyEncoding = mail.BodyEncoding,
-                SubjectEncoding = mail.SubjectEncoding,
-                HeadersEncoding = mail.HeadersEncoding,
+                BodyEncoding = mail.BodyEncoding != null ? Encoding.GetEncoding(mail.BodyEncoding) : Encoding.UTF8,
+                SubjectEncoding = mail.SubjectEncoding != null ? Encoding.GetEncoding(mail.SubjectEncoding) : Encoding.UTF8,
+                HeadersEncoding = mail.HeadersEncoding != null ? Encoding.GetEncoding(mail.HeadersEncoding) : Encoding.UTF8,
             };
 
             if (mail.From != null)

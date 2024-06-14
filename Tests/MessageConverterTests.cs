@@ -1,6 +1,5 @@
 ﻿using System.Threading.Tasks;
 using DiffEngine;
-using Newtonsoft.Json;
 using VerifyNUnit;
 
 namespace NServiceBus.Mailer
@@ -11,8 +10,9 @@ namespace NServiceBus.Mailer
     using System.Net.Mail;
     using System.Text;
     using NUnit.Framework;
+    using NUnit.Framework.Legacy;
     using VerifyTests;
-    
+
     [TestFixture]
     class MessageConverterTests
     {
@@ -21,19 +21,15 @@ namespace NServiceBus.Mailer
         public MessageConverterTests()
         {
             DiffTools.UseOrder(DiffTool.VisualStudioCode, DiffTool.Rider, DiffTool.VisualStudio);
-            VerifierSettings.AddExtraSettings(s => s.Converters.Add(new EncodingConverter()));
-            
+
             settings = new VerifySettings();
-            settings.ModifySerialization(_ =>
-            {
-                _.IgnoreMembersWithType<Stream>();                
-            });
+            settings.IgnoreMembersWithType<Stream>();
         }
 
         [Test]
         public async Task MailToMailMessage()
         {
-            var mailMessage = CreateMail();            
+            var mailMessage = CreateMail();
             var message = mailMessage.ToMailMessage();
             await Verifier.Verify(message, settings);
         }
@@ -44,7 +40,7 @@ namespace NServiceBus.Mailer
             var nsbMail = CreateMailMessage();
             var message = nsbMail.ToMailMessage();
             var alternateView = message.AlternateViews.First();
-            
+
             await Verifier.Verify(new
             {
                 message,
@@ -58,12 +54,13 @@ namespace NServiceBus.Mailer
             var nsbMail = CreateMailMessage();
             var message = nsbMail.ToMailMessage();
             var alternateView = message.AlternateViews.First();
-
-            Assert.AreEqual("AlternateView1", await new StreamReader(alternateView.ContentStream).ReadToEndAsync());
+            ClassicAssert.AreEqual("AlternateView1", await new StreamReader(alternateView.ContentStream).ReadToEndAsync());
         }
 
         Mail CreateMail()
         {
+            var encoding = Encoding.UTF32.BodyName;
+
             var mailMessage = new Mail
             {
                 DeliveryNotificationOptions = DeliveryNotificationOptions.Delay,
@@ -83,19 +80,21 @@ namespace NServiceBus.Mailer
                 Subject = "Subject",
                 Body = "Body",
                 From = "from@b.com",
-                BodyEncoding = Encoding.UTF32,
-                Headers = new Dictionary<string, string> {{"Key", "Value"}},
-                HeadersEncoding = Encoding.UTF32,
+                BodyEncoding = encoding,
+                Headers = new Dictionary<string, string> { { "Key", "Value" } },
+                HeadersEncoding = encoding,
                 Sender = "sender@b.com",
                 Priority = MailPriority.High,
-                SubjectEncoding = Encoding.UTF32,
+                SubjectEncoding = encoding,
             };
 
             return mailMessage;
         }
 
-         MailMessage CreateMailMessage()
-         {
+        MailMessage CreateMailMessage()
+        {
+            var encoding = Encoding.UTF32.BodyName;
+
             var mailMessage = new MailMessage
             {
                 DeliveryNotificationOptions = DeliveryNotificationOptions.Delay,
@@ -104,34 +103,22 @@ namespace NServiceBus.Mailer
                 {
                     new AlternateView {Content = "AlternateView1", ContentType = "html/text"}
                 },
-                Bcc = new List<string> {"bcc@b.com"},
-                Cc = new List<string> {"cc@b.com"},
-                To = new List<string> {"to@b.com"},
-                ReplyTo = new List<string> {"reply@b.com"},
+                Bcc = new List<string> { "bcc@b.com" },
+                Cc = new List<string> { "cc@b.com" },
+                To = new List<string> { "to@b.com" },
+                ReplyTo = new List<string> { "reply@b.com" },
                 Subject = "Subject",
                 Body = "Body",
                 From = "from@b.com",
-                BodyEncoding = Encoding.UTF32,
-                Headers = new Dictionary<string, string> {{"Key", "Value"}},
-                HeadersEncoding = Encoding.UTF32,
+                BodyEncoding = encoding,
+                Headers = new Dictionary<string, string> { { "Key", "Value" } },
+                HeadersEncoding = encoding,
                 Sender = "sender@b.com",
                 Priority = MailPriority.High,
-                SubjectEncoding = Encoding.UTF32,
+                SubjectEncoding = encoding,
             };
 
             return mailMessage;
         }
-
-         class EncodingConverter : WriteOnlyJsonConverter<Encoding>
-         {
-             public override void WriteJson(JsonWriter writer, Encoding encoding,
-                 Newtonsoft.Json.JsonSerializer serializer)
-             {
-                 if (encoding != null)
-                 {
-                     serializer.Serialize(writer, encoding.EncodingName);
-                 }
-             }
-         }
     }
 }
