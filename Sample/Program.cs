@@ -21,8 +21,10 @@ class Program
         endpointConfiguration.SendFailedMessagesTo("error");
         endpointConfiguration.EnableInstallers();
 
-        var mailerSettings = endpointConfiguration.EnableMailer();
-        mailerSettings.UseSmtpBuilder(() =>
+        endpointConfiguration.Recoverability().AddUnrecoverableException(typeof(ArgumentException));
+
+        var mailerOptions = endpointConfiguration.EnableMailer("mydomain.com");
+        mailerOptions.SmtpClientBuilder = () =>
         {
             Directory.CreateDirectory(DirectoryLocation);
             return new SmtpClient
@@ -30,21 +32,21 @@ class Program
                 DeliveryMethod = SmtpDeliveryMethod.SpecifiedPickupDirectory,
                 PickupDirectoryLocation = DirectoryLocation
             };
-        });
-        mailerSettings.UseAttachmentFinder(
-            findAttachments: attachmentContext =>
+        };
+        mailerOptions.AttachmentsFinder = async attachmentContext =>
             {
                 var id = attachmentContext["Id"];
                 var memoryStream = new MemoryStream(Encoding.ASCII.GetBytes("Hello"));
                 var attachment = new Attachment(memoryStream, "example.txt", "text/plain");
                 var attachments = new List<Attachment> { attachment };
-                return Task.FromResult<IEnumerable<Attachment>>(attachments);
-            },
-            cleanAttachments: attachmentContext =>
+                return attachments;
+            };
+
+        mailerOptions.AttachmentCleaner = attachmentContext =>
             {
                 // Attachment cleanup can be performed here
                 return Task.FromResult(0);
-            });
+            };
 
         var endpointInstance = await Endpoint.Start(endpointConfiguration)
             .ConfigureAwait(false);

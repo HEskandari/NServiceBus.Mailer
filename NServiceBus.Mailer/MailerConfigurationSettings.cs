@@ -1,10 +1,12 @@
 ﻿using NServiceBus.Configuration.AdvancedExtensibility;
+using System;
 
 namespace NServiceBus.Mailer
 {
     /// <summary>
     /// Configuration settings for Mailer.
     /// </summary>
+    [Obsolete("Use MailerOptions return type from EnableMailer(string domain)")]
     public class MailerConfigurationSettings
     {
         EndpointConfiguration config;
@@ -23,9 +25,20 @@ namespace NServiceBus.Mailer
         {
             Guard.AgainstNull(nameof(findAttachments), findAttachments);
             Guard.AgainstNull(nameof(cleanAttachments), cleanAttachments);
-            var settings = config.GetSettings();
-            settings.Set<FindAttachments>(findAttachments);
-            settings.Set<CleanAttachments>(cleanAttachments);
+            var options = config.GetSettings().GetOrCreate<MailerOptions>();
+            options.AttachmentsFinder = findAttachments;
+            options.AttachmentCleaner = cleanAttachments;
+        }
+
+        /// <summary>
+        /// Register attachment discovery and cleanup.
+        /// </summary>
+        public void UseAttachmentFinder(
+            FindAttachments findAttachments)
+        {
+            Guard.AgainstNull(nameof(findAttachments), findAttachments);
+            var options = config.GetSettings().GetOrCreate<MailerOptions>();
+            options.AttachmentsFinder = findAttachments;
         }
 
         /// <summary>
@@ -34,8 +47,8 @@ namespace NServiceBus.Mailer
         public void UseSmtpBuilder(BuildSmtpClient buildSmtpClient)
         {
             Guard.AgainstNull(nameof(buildSmtpClient), buildSmtpClient);
-            var settings = config.GetSettings();
-            settings.Set<BuildSmtpClient>(buildSmtpClient);
+            var options = config.GetSettings().GetOrCreate<MailerOptions>();
+            options.SmtpClientBuilder = buildSmtpClient;
         }
     }
 }
