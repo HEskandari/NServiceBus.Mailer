@@ -64,6 +64,14 @@ namespace NServiceBus.Mailer
                 }
                 catch (SmtpFailedRecipientsException exception)
                 {
+                    //TODO: Likely this can be commented out
+                    //var hasMessageId = sendEmail.Headers.ContainsKey(MessageIdKey);
+
+                    //if (hasMessageId)
+                    //{
+                    //    throw;
+                    //}
+
                     //TODO: should put some delay in here to back off from an overloaded smtp server
                     var originalRecipientCount = mailMessage.To.Count + mailMessage.Bcc.Count + mailMessage.CC.Count;
                     if (exception.InnerExceptions.Length == originalRecipientCount)
